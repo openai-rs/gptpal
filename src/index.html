@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>AI Desktop</title>
+</head>
+<style>
+  body {
+    margin: 0;
+  }
+
+  .container {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .raw {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #chat-list {
+    background-color: #232629;
+    width: 20%;
+    height: 100%;
+  }
+
+  #right-panel {
+    background-color: #fbfbfb;
+    width: 80%;
+    height: 100%;
+  }
+
+  #chat-content {
+    width: 100%;
+    height: 70%;
+  }
+
+  #chat-input {
+    border-top: 1px solid lightgray;
+    background-color: white;
+    width: 100%;
+    height: 30%;
+  }
+</style>
+
+<body>
+  <div class="raw container">
+    <div id="chat-list">
+
+    </div>
+    <div class="col" id="right-panel">
+      <div id="chat-content">
+
+      </div>
+      <div id="chat-input">
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
