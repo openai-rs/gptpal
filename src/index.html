@@ -4,6 +4,8 @@
 
 <head>
   <title>AI Desktop</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="/main.js" defer></script>
 </head>
 <style>
   body {
@@ -11,8 +13,8 @@
   }
 
   .container {
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
   }
 
   .raw {
@@ -38,11 +40,16 @@
     background-color: #fbfbfb;
     width: 80%;
     height: 100%;
+    overflow: hidden;
   }
 
-  #chat-content {
-    width: 100%;
-    height: 70%;
+  #chat-history {
+    width: calc(100% - 20px);
+    height: calc(70% - 20px);
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #F5F5F5;
   }
 
   #chat-input {
@@ -50,6 +57,78 @@
     background-color: white;
     width: 100%;
     height: 30%;
+  }
+
+  #chat-content {
+    height: calc(100% - 0.6em);
+    width: calc(100% - 1.2em);
+  }
+
+  #chat-send {
+    position: absolute;
+    right: 21px;
+    bottom: 10px;
+    color: #16dbab;
+    padding: 7px 20px;
+  }
+
+  #chat-send:hover {
+    color: #159979;
+  }
+
+  .message {
+    margin-bottom: 10px;
+    min-height: 40px;
+    display: flex;
+    align-items: start;
+  }
+
+  .user-message {
+    justify-content: right;
+  }
+
+  .bot-message {
+    justify-content: left;
+  }
+
+  .message .avatar {
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .bot-message .avatar {
+    background-size: 30px;
+    background-color: rgb(16, 163, 127);
+    background-image: url("assets/bot.svg");
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .user-message .avatar {
+    background-size: 40px;
+    width: 40px;
+    height: 40px;
+    background-image: url("assets/user.png");
+  }
+
+  .message .textarea {
+    max-width: calc(100% - 119px);
+    border-radius: 3px;
+    height: auto;
+    line-height: 20px;
+    min-width: 50px;
+    width: auto;
+  }
+
+  .user-message .textarea {
+    margin-right: 10px;
+    background-color: #89D961;
+  }
+
+  .bot-message .textarea {
+    margin-left: 10px;
+    background-color: white;
   }
 </style>
 
@@ -59,11 +138,10 @@
 
     </div>
     <div class="col" id="right-panel">
-      <div id="chat-content">
-
-      </div>
+      <div id="chat-history" calss="col"></div>
       <div id="chat-input">
-
+        <textarea id="chat-content"></textarea>
+        <button id="chat-send">Send</button>
       </div>
     </div>
   </div>

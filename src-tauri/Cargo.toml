@@ -19,7 +19,7 @@ serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.2", features = ["shell-open"] }
 lazy_static = "1.4.0"
 # openai
-openai_api_rust = "0.1.2"
+openai_api_rust = "0.1.4"
 
 [patch.crates-io]
 openai_api_rust = { git = "https://github.com/openai-rs/openai-api.git" }

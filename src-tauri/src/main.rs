@@ -19,7 +19,7 @@ fn main() {
     try_init_openai();
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![])
+        .invoke_handler(tauri::generate_handler![chat::send_content])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -32,4 +32,12 @@ fn try_init_openai() {
         let mut openai_global = OPENAI.write().unwrap();
         *openai_global = Some(openai);
     }
+}
+
+pub fn get_openai() -> Option<OpenAI>{
+    let openai = OPENAI.read().unwrap();
+    if let Some(openai) = &*openai {
+        return Some(openai.clone());
+    }
+    None
 }
