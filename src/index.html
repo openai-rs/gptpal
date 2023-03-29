@@ -141,17 +141,28 @@
     border-radius: 5px;
     line-height: 40px;
     padding: 0 10px;
+    cursor: pointer;
   }
-  #conversations .conversation:hover {
+  #conversations .conversation:hover, #conversations .conversation.active {
     background-color: rgba(58, 62, 70, 0.5);
   }
 
   .conversation .remove {
     font-size: 0;
-    min-width: 20px;
+    min-width: 21.69px;
   }
-  .conversation:hover .remove {
+  .conversation:hover .remove, .conversation.active .remove {
     font-size: 16px;
+  }
+
+  .conversation .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .conversation .raw {
+    max-width: calc(100% - 21.69px);
   }
 
   #new-chat-btn {
@@ -164,6 +175,13 @@
     cursor: pointer;
     line-height: 40px;
     padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .chat-emoji {
+    margin-right: 8px;
   }
 
   .two-end {
@@ -185,10 +203,6 @@
         <div>➕</div>
       </div>
       <div id="conversations">
-        <div class="conversation two-end">
-          <div class="title">2222222222222222</div>
-          <div class="remove btn">❌</div>
-        </div>
       </div>
     </div>
     <div class="col" id="right-panel">

@@ -15,6 +15,7 @@ lazy_static! {
 
 #[tauri::command]
 pub async fn send_content(content: &str, conversation_id: &str) -> InvokeResult {
+    println!("content: {content}, conversation_id: {conversation_id}");
     let openai = get_openai().unwrap();
 
     let title;
