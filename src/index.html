@@ -3,6 +3,8 @@
 <html>
 
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Desktop</title>
   <link rel="stylesheet" href="style.css" />
   <script type="module" src="/main.js" defer></script>
@@ -130,12 +132,64 @@
     margin-left: 10px;
     background-color: white;
   }
+
+  #conversations .conversation {
+    color: white;
+    height: 40px;
+    background-color: transparent;
+    margin: 10px;
+    border-radius: 5px;
+    line-height: 40px;
+    padding: 0 10px;
+  }
+  #conversations .conversation:hover {
+    background-color: rgba(58, 62, 70, 0.5);
+  }
+
+  .conversation .remove {
+    font-size: 0;
+    min-width: 20px;
+  }
+  .conversation:hover .remove {
+    font-size: 16px;
+  }
+
+  #new-chat-btn {
+    border: 1px solid gray;
+    color: white;
+    background-color: transparent;
+    height: 40px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    line-height: 40px;
+    padding: 0 10px;
+  }
+
+  .two-end {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn {
+    cursor: pointer;
+  }
 </style>
 
 <body>
   <div class="raw container">
     <div id="chat-list">
-
+      <div id="new-chat-btn" class="two-end btn">
+        <div>New Chat</div>
+        <div>➕</div>
+      </div>
+      <div id="conversations">
+        <div class="conversation two-end">
+          <div class="title">2222222222222222</div>
+          <div class="remove btn">❌</div>
+        </div>
+      </div>
     </div>
     <div class="col" id="right-panel">
       <div id="chat-history" calss="col"></div>
