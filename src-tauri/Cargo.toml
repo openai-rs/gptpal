@@ -1,9 +1,9 @@
 [package]
-name = "ai-desktop"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
+name = "intellibot"
+version = "0.1.0"
+description = "A desktop application for chatgpt"
+authors = ["i@guantong.dev"]
+license = "GPL-3.0-or-later"
 repository = ""
 edition = "2021"
 rust-version = "1.57"
