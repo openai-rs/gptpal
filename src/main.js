@@ -52,7 +52,7 @@ function newConversation(content) {
   }
   curConversationId = new Date().getTime() + "";
   let div = document.createElement("div");
-  div.innerHTML = "<div class='conversation two-end'><div class='raw'><div class='chat-emoji'>🗪</div><div class='title'>" + title + "</div></div><div class='remove btn'>❌</div></div>"
+  div.innerHTML = "<div class='conversation two-end active'><div class='raw'><div class='chat-emoji'>🗪</div><div class='title'>" + title + "</div></div><div class='remove btn'>❌</div></div>"
   conversationsDiv.appendChild(div.firstChild);
 }
 
