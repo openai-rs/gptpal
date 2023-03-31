@@ -4,6 +4,7 @@
 )]
 
 mod chat;
+use chat::*;
 use openai_api_rust::*;
 use std::sync::RwLock;
 
@@ -19,7 +20,11 @@ fn main() {
     try_init_openai();
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![chat::send_content])
+        .invoke_handler(tauri::generate_handler![
+            send_content,
+            load_conversations,
+            save_conversations
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
@@ -34,7 +39,7 @@ fn try_init_openai() {
     }
 }
 
-pub fn get_openai() -> Option<OpenAI>{
+pub fn get_openai() -> Option<OpenAI> {
     let openai = OPENAI.read().unwrap();
     if let Some(openai) = &*openai {
         return Some(openai.clone());

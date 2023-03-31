@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>INTELLIBOT</title>
   <link rel="stylesheet" href="style.css" />
-  <script type="module" src="/main.js" defer></script>
+  <script src="/main.js"></script>
 </head>
 <style>
   body {
@@ -146,7 +146,19 @@
 
   #conversations .conversation:hover,
   #conversations .conversation.active {
-    background-color: rgba(58, 62, 70, 0.5);
+    background-color: rgba(58, 62, 70, 1);
+  }
+
+  #conversations .conversation .chat-emoji {
+    display: block;
+  }
+
+  #conversations .conversation.active .chat-emoji {
+    display: none;
+  }
+
+  #conversations .conversation.active .cur-emoji {
+    display: block;
   }
 
   .conversation .remove {
@@ -154,8 +166,7 @@
     min-width: 21.69px;
   }
 
-  .conversation:hover .remove,
-  .conversation.active .remove {
+  .conversation:hover .remove {
     font-size: 16px;
   }
 
@@ -184,8 +195,11 @@
     white-space: nowrap;
   }
 
-  .chat-emoji {
+  .chat-emoji,
+  .cur-emoji {
     margin-right: 8px;
+    display: none;
+    font-size: 10px;
   }
 
   .two-end {
@@ -202,7 +216,7 @@
 <body>
   <div class="raw container">
     <div id="chat-list">
-      <div id="new-chat-btn" class="two-end btn">
+      <div id="new-chat-btn" onclick="clearActiveConversation()" class="two-end btn">
         <div>New Chat</div>
         <div>➕</div>
       </div>
@@ -213,7 +227,7 @@
       <div id="chat-history" calss="col"></div>
       <div id="chat-input">
         <textarea id="chat-content"></textarea>
-        <button id="chat-send">Send</button>
+        <button id="chat-send" onclick="sendChatContent()">Send</button>
       </div>
     </div>
   </div>

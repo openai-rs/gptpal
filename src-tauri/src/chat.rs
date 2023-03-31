@@ -1,42 +1,19 @@
-use std::collections::HashMap;
+use std::fs::File;
+use std::fs::OpenOptions;
+use std::io::Read;
+use std::io::Write;
+use std::path::Path;
 
 use crate::*;
 use openai_api_rust::chat::*;
 use openai_api_rust::Message;
-use openai_api_rust::*;
 
 type InvokeResult = Result<String, String>;
-type ConversationVal = (String, Vec<Message>);
-
-lazy_static! {
-    // Key: timestamp, Value: (title, messages[])
-    static ref CONVERSATIONS: RwLock<HashMap<String, ConversationVal>> = RwLock::new(HashMap::new());
-}
 
 #[tauri::command]
-pub async fn send_content(content: &str, conversation_id: &str) -> InvokeResult {
-    println!("content: {content}, conversation_id: {conversation_id}");
+pub async fn send_content(messages: Vec<Message>) -> InvokeResult {
+    println!("messages: {:?}", messages);
     let openai = get_openai().unwrap();
-
-    let title;
-    let mut messages = vec![];
-
-    // If there are history messages.
-    {
-        let conversations = CONVERSATIONS.read().unwrap();
-        let map = conversations.get(conversation_id);
-        if let Some(val) = map {
-            messages.append(&mut val.1.clone());
-            title = val.0.clone();
-        } else {
-            title = subtitle(content);
-        }
-    }
-
-    messages.push(Message {
-        role: Role::User,
-        content: String::from(content),
-    });
 
     let body = ChatBody {
         model: "gpt-3.5-turbo".to_string(),
@@ -50,7 +27,7 @@ pub async fn send_content(content: &str, conversation_id: &str) -> InvokeResult 
         frequency_penalty: None,
         logit_bias: None,
         user: None,
-        messages: messages.clone(),
+        messages
     };
     let rs = openai.chat_completion_create(&body);
     let content;
@@ -64,27 +41,27 @@ pub async fn send_content(content: &str, conversation_id: &str) -> InvokeResult 
             return Err(err.to_string());
         }
     }
-    messages.push(Message {
-        role: Role::Assistant,
-        content: content.clone(),
-    });
-    CONVERSATIONS
-        .write()
-        .unwrap()
-        .insert(conversation_id.to_string(), (title, messages));
+
     Ok(content)
 }
 
-fn subtitle(content: &str) -> String {
-    let title_len = 20;
-    if content.len() < title_len {
-        return content.to_string();
-    }
+const CONVERSATIONS_FILE: &str = "conversations.txt";
 
-    let mut index = title_len;
-    while !content.is_char_boundary(index) {
-        index += 1;
-    }
+#[tauri::command]
+pub fn save_conversations(conversation_map: String) {
+    let path = Path::new(CONVERSATIONS_FILE);
+	let mut file = OpenOptions::new().create(true).write(true).truncate(true).open(path).expect("Failed to open file");
+	file.write(conversation_map.as_bytes()).expect("Failed to write conversations to file");
+}
 
-    content[0..index].to_string()
+#[tauri::command]
+pub fn load_conversations() -> String {
+    let path = Path::new(CONVERSATIONS_FILE);
+    let mut data = String::new();
+    if !path.exists() {
+        return data;
+    }
+    let mut file = File::open(path).unwrap();
+    file.read_to_string(&mut data).expect("Failed to load file");
+    data
 }
