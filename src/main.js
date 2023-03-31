@@ -103,7 +103,7 @@ function removeConversation(event) {
 
 function buildTitleHtml(conversationId, title, isActive) {
   let active = isActive ? "active" : "";
-  return "<div onclick='clickConversation(this)' data-id='" + conversationId + "' class='conversation two-end" + active + "'><div class='raw'><div class='current status'>🟢</div><div class='default status'>⚪</div><div class='notify status'>🟠</div><div class='title'>" + title + "</div></div><div onclick='removeConversation(event)' class='remove btn'>❌</div></div>"
+  return "<div onclick='clickConversation(this)' data-id='" + conversationId + "' class='conversation two-end " + active + "'><div class='raw'><div class='current status'>🟢</div><div class='default status'>⚪</div><div class='notify status'>🟠</div><div class='title'>" + title + "</div></div><div onclick='removeConversation(event)' class='remove btn'>❌</div></div>"
 }
 
 function buildMessageHtml(role, content) {

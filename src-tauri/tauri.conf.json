@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "intellibot",
+    "productName": "gptpal",
     "version": "0.1.0"
   },
   "tauri": {
@@ -29,7 +29,7 @@
       "icon": [
         "icons/openai-rs.ico"
       ],
-      "identifier": "com.openai-rs.intellibot",
+      "identifier": "com.openai-rs.gptpal",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -58,7 +58,7 @@
         "fullscreen": false,
         "height": 700,
         "resizable": true,
-        "title": "INTELLIBOT",
+        "title": "GPTPAL",
         "width": 1132
       }
     ]

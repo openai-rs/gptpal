@@ -1,5 +1,5 @@
 [package]
-name = "intellibot"
+name = "gptpal"
 version = "0.1.0"
 description = "A desktop application for chatgpt"
 authors = ["i@guantong.dev"]
