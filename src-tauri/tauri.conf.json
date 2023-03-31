@@ -27,7 +27,7 @@
       },
       "externalBin": [],
       "icon": [
-        "icons/bot.ico"
+        "icons/openai-rs.ico"
       ],
       "identifier": "com.openai-rs.intellibot",
       "longDescription": "",
