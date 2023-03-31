@@ -118,7 +118,7 @@
     max-width: calc(100% - 119px);
     border-radius: 3px;
     height: auto;
-    line-height: 20px;
+    line-height: 1.5rem;
     min-width: 50px;
     width: auto;
   }
@@ -147,18 +147,6 @@
   #conversations .conversation:hover,
   #conversations .conversation.active {
     background-color: rgba(58, 62, 70, 1);
-  }
-
-  #conversations .conversation .chat-emoji {
-    display: block;
-  }
-
-  #conversations .conversation.active .chat-emoji {
-    display: none;
-  }
-
-  #conversations .conversation.active .cur-emoji {
-    display: block;
   }
 
   .conversation .remove {
@@ -195,12 +183,30 @@
     white-space: nowrap;
   }
 
-  .chat-emoji,
-  .cur-emoji {
+  .status {
     margin-right: 8px;
     display: none;
     font-size: 10px;
   }
+  #conversations .conversation .default.status {
+    display: block;
+  }
+
+  #conversations .conversation.active .default.status {
+    display: none;
+  }
+
+  #conversations .conversation.active .current.status {
+    display: block;
+  }
+
+  #conversations .conversation.notify .default.status {
+    display: none;
+  }
+  #conversations .conversation.notify .notify.status {
+    display: block;
+  }
+
 
   .two-end {
     display: flex;
@@ -210,6 +216,12 @@
 
   .btn {
     cursor: pointer;
+  }
+
+  /* markdown style */
+  .textarea>p {
+    margin-top: 0;
+    margin-bottom: 0;
   }
 </style>
 

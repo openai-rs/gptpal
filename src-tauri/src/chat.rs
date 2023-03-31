@@ -7,11 +7,12 @@ use std::path::Path;
 use crate::*;
 use openai_api_rust::chat::*;
 use openai_api_rust::Message;
+use serde_json::json;
 
-type InvokeResult = Result<String, String>;
+type InvokeResult = Result<serde_json::Value, String>;
 
 #[tauri::command]
-pub async fn send_content(messages: Vec<Message>) -> InvokeResult {
+pub async fn send_content(messages: Vec<Message>, conversation_id: String) -> InvokeResult {
     println!("messages: {:?}", messages);
     let openai = get_openai().unwrap();
 
@@ -27,7 +28,7 @@ pub async fn send_content(messages: Vec<Message>) -> InvokeResult {
         frequency_penalty: None,
         logit_bias: None,
         user: None,
-        messages
+        messages,
     };
     let rs = openai.chat_completion_create(&body);
     let content;
@@ -41,8 +42,7 @@ pub async fn send_content(messages: Vec<Message>) -> InvokeResult {
             return Err(err.to_string());
         }
     }
-
-    Ok(content)
+    Ok(json!({ "content": convert_to_html(&content), "id": conversation_id  }))
 }
 
 const CONVERSATIONS_FILE: &str = "conversations.txt";
@@ -50,8 +50,14 @@ const CONVERSATIONS_FILE: &str = "conversations.txt";
 #[tauri::command]
 pub fn save_conversations(conversation_map: String) {
     let path = Path::new(CONVERSATIONS_FILE);
-	let mut file = OpenOptions::new().create(true).write(true).truncate(true).open(path).expect("Failed to open file");
-	file.write(conversation_map.as_bytes()).expect("Failed to write conversations to file");
+    let mut file = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(path)
+        .expect("Failed to open file");
+    file.write(conversation_map.as_bytes())
+        .expect("Failed to write conversations to file");
 }
 
 #[tauri::command]
@@ -64,4 +70,11 @@ pub fn load_conversations() -> String {
     let mut file = File::open(path).unwrap();
     file.read_to_string(&mut data).expect("Failed to load file");
     data
+}
+
+fn convert_to_html(content: &str) -> String {
+    let parser = pulldown_cmark::Parser::new(content);
+    let mut html_content = String::new();
+    pulldown_cmark::html::push_html(&mut html_content, parser);
+    html_content
 }

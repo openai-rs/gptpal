@@ -36,11 +36,14 @@ function sendChatContent() {
   } else {
     conversationMap[curConversationId].push({ role: Role.user, content: content })
   }
-  invoke("send_content", { messages: conversationMap[curConversationId] })
+  invoke("send_content", { messages: conversationMap[curConversationId], conversationId: curConversationId })
     .then((res) => {
-      appendMsg(Role.assistant, res);
-      conversationMap[curConversationId].push({ role: Role.assistant, content: res })
-      console.log(conversationMap);
+      if (res.id == curConversationId) {
+        appendMsg(Role.assistant, res.content);
+      } else {
+        document.querySelector("[data-id='" + res.id + "']").classList.add("notify");
+      }
+      conversationMap[res.id].push({ role: Role.assistant, content: res.content })
       invoke("save_conversations", { conversationMap: JSON.stringify(conversationMap) });
     });
 }
@@ -51,7 +54,6 @@ async function loadConversationMap() {
     return;
   }
   let json = JSON.parse(conversations);
-  console.log("fromfile:", json);
   conversationMap = json;
   let titleHtml = "";
   Object.keys(json).reverse().forEach((key) => {
@@ -80,13 +82,14 @@ function newConversation(content) {
 function clickConversation(ele) {
   let dataId = ele.getAttribute("data-id");
   clearActiveConversation();
+  ele.classList.remove("notify");
   ele.classList.add("active");
   loadConversationHistory(dataId);
   curConversationId = dataId;
+  chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 function removeConversation(event) {
-  console.log(event);
   let ele = event.target;
   let dataId = ele.parentElement.getAttribute("data-id");
   if (curConversationId == dataId) {
@@ -100,7 +103,7 @@ function removeConversation(event) {
 
 function buildTitleHtml(conversationId, title, isActive) {
   let active = isActive ? "active" : "";
-  return "<div onclick='clickConversation(this)' data-id='" + conversationId + "' class='conversation two-end " + active + "'><div class='raw'><div class=cur-emoji>🟢</div><div class='chat-emoji'>⚪</div><div class='title'>" + title + "</div></div><div onclick='removeConversation(event)' class='remove btn'>❌</div></div>"
+  return "<div onclick='clickConversation(this)' data-id='" + conversationId + "' class='conversation two-end" + active + "'><div class='raw'><div class='current status'>🟢</div><div class='default status'>⚪</div><div class='notify status'>🟠</div><div class='title'>" + title + "</div></div><div onclick='removeConversation(event)' class='remove btn'>❌</div></div>"
 }
 
 function buildMessageHtml(role, content) {
