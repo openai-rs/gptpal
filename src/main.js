@@ -66,6 +66,38 @@ function loadConversationHistory(conversationId) {
   history.forEach((val) => {
     chatHistory.appendChild(buildMessageNode(val.role, val.content));
   })
+  highlightCode();
+}
+
+function highlightCode() {
+  hljs.highlightAll();
+  let pres = document.querySelectorAll("pre");
+  pres.forEach((ele) => {
+    if (!ele.querySelector(".copy-code")) {
+      let code = ele.getElementsByTagName("code")[0];
+      let lan;
+      if (code.classList[1].includes("language")) {
+        lan = code.classList[1].replace("language-", "");
+      } else {
+        lan = code.classList[0].replace("language-", "");
+      }
+      let copyDiv = document.createElement("div");
+      copyDiv.innerHTML = "<div class='copy-code two-end'><div>" + lan + "</div><div class='btn'>📄 Copy</div></div>";
+      ele.insertBefore(copyDiv, code);
+    }
+  })
+  let clipboard = new ClipboardJS('.copy-code', {
+    text: function (trigger) {
+      return trigger.parentElement.nextElementSibling;
+    }
+  });
+  clipboard.on('success', function (e) {
+    e.trigger.querySelector(".btn").innerHTML = "📋 Copied!"
+    e.clearSelection();
+    setTimeout(function(){
+      e.trigger.querySelector(".btn").innerHTML = "📄 Copy"
+    }, 1000);
+  });
 }
 
 function newConversation(content) {
@@ -124,6 +156,7 @@ function clearActiveConversation() {
 function appendMsg(role, content) {
   chatHistory.appendChild(buildMessageNode(role, content));
   chatHistory.scrollTop = chatHistory.scrollHeight;
+  highlightCode();
 }
 
 function subTitle(content) {

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPT Pal</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="/main.js"></script>
+  <script src="main.js"></script>
 </head>
 <style>
   body {
@@ -193,6 +193,7 @@
     display: none;
     font-size: 10px;
   }
+
   #conversations .conversation .default.status {
     display: block;
   }
@@ -208,6 +209,7 @@
   #conversations .conversation.notify .default.status {
     display: none;
   }
+
   #conversations .conversation.notify .notify.status {
     display: block;
   }
@@ -227,6 +229,30 @@
   .textarea>p {
     margin-top: 0;
     margin-bottom: 0;
+  }
+
+  .hljs,
+  .copy-code, code {
+    font-size: 14px;
+    font-family: Consolas, Monaco, monospace;
+  }
+
+  .copy-code {
+    background-color: #343541d1;
+    color: #c5d1d1;
+    padding: 0 15px;
+    font-size: 12px;
+    border-radius: 5px 5px 0 0;
+  }
+
+  code:not(.hljs) {
+    color: #eb5757;
+    background: #ededeb;
+    padding: 2px 3px;
+    border-radius: 5px;
+    margin: 0 2px;
+    position: relative;
+    top: -1px;
   }
 </style>
 
@@ -251,3 +277,6 @@
 </body>
 
 </html>
+<link rel="stylesheet" href="lib/highlight/atom-one-dark.min.css" />
+<script src="lib/highlight/highlight.min.js"></script>
+<script src="lib/clipboard.min.js"></script>
