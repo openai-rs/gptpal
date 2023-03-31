@@ -55,28 +55,22 @@ async function loadConversationMap() {
   }
   let json = JSON.parse(conversations);
   conversationMap = json;
-  let titleHtml = "";
   Object.keys(json).reverse().forEach((key) => {
     const value = json[key];
-    titleHtml += buildTitleHtml(key, subTitle(value[0].content));
+    conversationsDiv.appendChild(buildTitleNode(key, subTitle(value[0].content)));
   })
-  conversationsDiv.innerHTML = titleHtml;
 }
 
 function loadConversationHistory(conversationId) {
   let history = conversationMap[conversationId];
-  let historyHtml = "";
   history.forEach((val) => {
-    historyHtml += buildMessageHtml(val.role, val.content)
+    chatHistory.appendChild(buildMessageNode(val.role, val.content));
   })
-  chatHistory.innerHTML = historyHtml;
 }
 
 function newConversation(content) {
   curConversationId = new Date().getTime() + "";
-  let div = document.createElement("div");
-  div.innerHTML = buildTitleHtml(curConversationId, subTitle(content), true);
-  conversationsDiv.insertBefore(div.firstChild, conversationsDiv.firstChild);
+  conversationsDiv.insertBefore(buildTitleNode(curConversationId, subTitle(content), true), conversationsDiv.firstChild);
 }
 
 function clickConversation(ele) {
@@ -101,17 +95,23 @@ function removeConversation(event) {
   event.stopPropagation();
 }
 
-function buildTitleHtml(conversationId, title, isActive) {
+function buildTitleNode(conversationId, title, isActive) {
+  let node = document.createElement("div");
   let active = isActive ? "active" : "";
-  return "<div onclick='clickConversation(this)' data-id='" + conversationId + "' class='conversation two-end " + active + "'><div class='raw'><div class='current status'>🟢</div><div class='default status'>⚪</div><div class='notify status'>🟠</div><div class='title'>" + title + "</div></div><div onclick='removeConversation(event)' class='remove btn'>❌</div></div>"
+  node.innerHTML = "<div onclick='clickConversation(this)' data-id='" + conversationId + "' class='conversation two-end " + active + "'><div class='raw'><div class='current status'>🟢</div><div class='default status'>⚪</div><div class='notify status'>🟠</div><div class='title'></div></div><div onclick='removeConversation(event)' class='remove btn'>❌</div></div>"
+  node.querySelector(".title").innerText = title;
+  return node.firstChild;
 }
 
-function buildMessageHtml(role, content) {
+function buildMessageNode(role, content) {
+  let node = document.createElement("div");
   if (role == Role.user) {
-    return "<div class='message user-message'><div class='textarea'>" + content + "</div><div class='avatar'></div></div>"
+    node.innerHTML = "<div class='message user-message'><div class='textarea'></div><div class='avatar'></div></div>"
+    node.querySelector(".textarea").innerText = content;
   } else if (role == Role.assistant) {
-    return "<div class='message bot-message'><div class='avatar'></div><div class='textarea'>" + content + "</div></div>"
+    node.innerHTML = "<div class='message bot-message'><div class='avatar'></div><div class='textarea'>" + content + "</div></div>"
   }
+  return node.firstChild;
 }
 
 function clearActiveConversation() {
@@ -122,9 +122,7 @@ function clearActiveConversation() {
 }
 
 function appendMsg(role, content) {
-  let node = document.createElement("div");
-  node.innerHTML = buildMessageHtml(role, content);
-  chatHistory.appendChild(node);
+  chatHistory.appendChild(buildMessageNode(role, content));
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
