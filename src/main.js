@@ -22,7 +22,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
 const Role = {
   user: "user",
-  assistant: "assistant"
+  assistant: "assistant",
+  error: "error",
 }
 
 // Send content to backend API
@@ -36,15 +37,19 @@ function sendChatContent() {
   } else {
     conversationMap[curConversationId].push({ role: Role.user, content: content })
   }
+  document.getElementById("typing").style.visibility = 'visible';
   invoke("send_content", { messages: conversationMap[curConversationId], conversationId: curConversationId })
     .then((res) => {
       if (res.id == curConversationId) {
         appendMsg(Role.assistant, res.content);
+        document.getElementById("typing").style.visibility = 'hidden';
       } else {
         document.querySelector("[data-id='" + res.id + "']").classList.add("notify");
       }
       conversationMap[res.id].push({ role: Role.assistant, content: res.content })
       invoke("save_conversations", { conversationMap: JSON.stringify(conversationMap) });
+    }).catch(err => {
+      appendMsg(Role.error, err);
     });
 }
 
@@ -66,6 +71,11 @@ function loadConversationHistory(conversationId) {
   history.forEach((val) => {
     chatHistory.appendChild(buildMessageNode(val.role, val.content));
   })
+  if (history[history.length - 1].role == Role.assistant) {
+    document.getElementById("typing").style.visibility = 'hidden';
+  } else {
+    document.getElementById("typing").style.visibility = 'visible';
+  }
   highlightCode();
 }
 
@@ -94,7 +104,7 @@ function highlightCode() {
   clipboard.on('success', function (e) {
     e.trigger.querySelector(".btn").innerHTML = "📋 Copied!"
     e.clearSelection();
-    setTimeout(function(){
+    setTimeout(function () {
       e.trigger.querySelector(".btn").innerHTML = "📄 Copy"
     }, 1000);
   });
@@ -142,6 +152,8 @@ function buildMessageNode(role, content) {
     node.querySelector(".textarea").innerText = content;
   } else if (role == Role.assistant) {
     node.innerHTML = "<div class='message bot-message'><div class='avatar'></div><div class='textarea'>" + content + "</div></div>"
+  } else if (role == Role.error) {
+    node.innerHTML = "<div class='message bot-message err-message'><div class='avatar'></div><div class='textarea'>" + content + "</div></div>"
   }
   return node.firstChild;
 }
