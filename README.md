@@ -1,7 +1,15 @@
-# Tauri + Vanilla
+# GPT Pal
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+|   |   |
+| ------ | ------ |
+| Chat simultaneously with GPTs | ✔️ |
+| Local conversations records | ✔️ |
+| Markdown render | ✔️ |
+| Highlight code | ✔️ |
+| Remember window state | ✔️ |
+| Set API key | 🚧 |
+| Prompts | 🚧 |
+| Select Model | 🚧 |
+| Optimize tokens | 🚧 |
+| Usage progress | 🚧 |
+| Theme | 🚧 |
