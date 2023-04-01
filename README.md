@@ -4,12 +4,16 @@
 | ------ | ------ |
 | Chat simultaneously with GPTs | ✔️ |
 | Local conversations records | ✔️ |
-| Markdown render | ✔️ |
-| Highlight code | ✔️ |
+| Render markdown | ✔️ |
+| Highlight & Copy code | ✔️ |
 | Remember window state | ✔️ |
-| Set API key | 🚧 |
+| Set API Key | 🚧 |
+| Select Model | ✔️ |
+| Config Model | 🚧 |
 | Prompts | 🚧 |
-| Select Model | 🚧 |
+| Select language | 🚧 |
 | Optimize tokens | 🚧 |
 | Usage progress | 🚧 |
+| Cross platform | 🚧 |
 | Theme | 🚧 |
+| Modify title | ❓ |

@@ -152,10 +152,11 @@
   }
 
   #conversations {
-    height: calc(100% - 62px);
+    height: calc(100% - 262px);
     overflow-y: auto;
   }
 
+  #settings .setting-item:hover,
   #conversations .conversation:hover,
   #conversations .conversation.active {
     background-color: rgba(58, 62, 70, 1);
@@ -248,35 +249,50 @@
     visibility: hidden;
   }
 
-  /* markdown style */
-  .textarea>p {
-    margin-top: 0;
-    margin-bottom: 0;
+  #settings {
+    height: 200px;
+    align-items: start;
+    padding: 10px;
+    color: white;
+    background-color: #232629;
+    justify-content: space-around;
+    box-sizing: border-box;
   }
 
-  .hljs,
-  .copy-code,
-  code {
-    font-size: 14px;
-    font-family: Consolas, Monaco, monospace;
-  }
-
-  .copy-code {
-    background-color: #343541d1;
-    color: #c5d1d1;
-    padding: 0 15px;
-    font-size: 12px;
-    border-radius: 5px 5px 0 0;
-  }
-
-  code:not(.hljs) {
-    color: #eb5757;
-    background: #ededeb;
-    padding: 2px 3px;
+  #settings .setting-item {
+    cursor: pointer;
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    line-height: 20px;
+    box-sizing: border-box;
     border-radius: 5px;
-    margin: 0 2px;
+  }
+
+  #progress-bar {
+    width: 100%;
+    height: 5px;
+    background-color: #f5f5f5;
     position: relative;
-    top: -1px;
+    border-radius: 1px;
+  }
+
+  #progress {
+    height: 100%;
+    background-color: #10a37f;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.5s ease-in-out;
+  }
+
+  #select-model {
+    max-width: 180px;
+    min-width: 130px;
+    text-transform: uppercase;
+    outline: none;
+    padding: 1px;
+    border-radius: 3px;
   }
 </style>
 
@@ -284,10 +300,20 @@
   <div class="raw container">
     <div id="chat-list">
       <div id="new-chat-btn" onclick="clearActiveConversation()" class="two-end btn">
-        <div>New Chat</div>
+        <div>New chat</div>
         <div>➕</div>
       </div>
       <div id="conversations">
+      </div>
+      <hr style="border-color: gray; margin: 0 10px;">
+      <div id="settings" class="col">
+        <div class="setting-item" onclick="clearConversations()">🗑️ Clear conversations</div>
+        <div class="setting-item">🔑 Change API Key</div>
+        <div class="setting-item">🤖 <select id="select-model" onchange="modelChange()" name="select-model">
+          </select></div>
+        <div id="progress-bar">
+          <div id="progress" style="width: 0;"></div>
+        </div>
       </div>
     </div>
     <div class="col" id="right-panel">
@@ -308,3 +334,6 @@
 <link rel="stylesheet" href="lib/highlight/atom-one-dark.min.css" />
 <script src="lib/highlight/highlight.min.js"></script>
 <script src="lib/clipboard.min.js"></script>
+<script>
+  document.getElementById("progress").style.width = 68 + "%";
+</script>

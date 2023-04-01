@@ -27,7 +27,7 @@ body {
   height: 100%;
   width: 100%;
   margin: 0;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 a {
@@ -91,3 +91,34 @@ button {
 button:hover {
   background-color: #d2d2d2;
 }
+
+  /* markdown style */
+  .textarea>p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .hljs,
+  .copy-code,
+  code {
+    font-size: 14px;
+    font-family: Consolas, Monaco, monospace;
+  }
+
+  .copy-code {
+    background-color: #343541d1;
+    color: #c5d1d1;
+    padding: 0 15px;
+    font-size: 12px;
+    border-radius: 5px 5px 0 0;
+  }
+
+  code:not(.hljs) {
+    color: #eb5757;
+    background: #ededeb;
+    padding: 2px 3px;
+    border-radius: 5px;
+    margin: 0 2px;
+    position: relative;
+    top: -1px;
+  }

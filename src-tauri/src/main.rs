@@ -23,7 +23,10 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             send_content,
             load_conversations,
-            save_conversations
+            save_conversations,
+            list_models,
+            save_config,
+            load_config
         ])
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .run(tauri::generate_context!())

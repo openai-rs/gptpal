@@ -5,6 +5,9 @@ let chatContentInput;
 let conversationsDiv;
 // Global variable
 let curConversationId;
+let Config = {
+  curModel: "",
+}
 let conversationMap = {};
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -17,7 +20,9 @@ window.addEventListener("DOMContentLoaded", () => {
       sendChatContent();
     }
   })
+  loadConfig();
   loadConversationMap();
+  initModelSelect();
 });
 
 const Role = {
@@ -46,8 +51,8 @@ function sendChatContent() {
       } else {
         document.querySelector("[data-id='" + res.id + "']").classList.add("notify");
       }
-      conversationMap[res.id].push({ role: Role.assistant, content: res.content })
-      invoke("save_conversations", { conversationMap: JSON.stringify(conversationMap) });
+      conversationMap[res.id].push({ role: Role.assistant, content: res.content });
+      saveConversations();
     }).catch(err => {
       appendMsg(Role.error, err);
     });
@@ -64,6 +69,20 @@ async function loadConversationMap() {
     const value = json[key];
     conversationsDiv.appendChild(buildTitleNode(key, subTitle(value[0].content)));
   })
+}
+
+async function loadConfig() {
+  let config = await invoke("load_config");
+  if (!config) {
+    return;
+  }
+  let json = JSON.parse(config);
+  Config = json;
+}
+
+async function saveConfig() {
+  let config = JSON.stringify(Config);
+  invoke("save_config", { config: config });
 }
 
 function loadConversationHistory(conversationId) {
@@ -133,8 +152,41 @@ function removeConversation(event) {
   }
   document.querySelector("[data-id='" + dataId + "']").remove();
   delete conversationMap[dataId];
-  invoke("save_conversations", { conversationMap: JSON.stringify(conversationMap) });
+  saveConversations();
   event.stopPropagation();
+}
+
+function clearConversations() {
+  clearActiveConversation();
+  conversationMap = {};
+  conversationsDiv.innerHTML = "";
+  saveConversations();
+}
+
+function saveConversations() {
+  invoke("save_conversations", { conversationMap: JSON.stringify(conversationMap) });
+}
+
+async function initModelSelect() {
+  let models = await invoke("list_models");
+  let json = JSON.parse(models);
+  let selectModel = document.getElementById("select-model");
+  json.reverse().forEach(model => {
+    let option = document.createElement("option");
+    option.textContent = model.id;
+    selectModel.appendChild(option);
+  })
+  if (Config.curModel) {
+    selectModel.value = Config.curModel;
+  } else {
+    Config.curModel = selectModel.value;
+  }
+
+}
+
+function modelChange() {
+  Config.curModel = document.getElementById("select-model").value;
+  saveConfig();
 }
 
 function buildTitleNode(conversationId, title, isActive) {

@@ -6,6 +6,7 @@ use std::path::Path;
 
 use crate::*;
 use openai_api_rust::chat::*;
+use openai_api_rust::models::ModelsApi;
 use openai_api_rust::Message;
 use serde_json::json;
 
@@ -13,7 +14,6 @@ type InvokeResult = Result<serde_json::Value, String>;
 
 #[tauri::command]
 pub async fn send_content(messages: Vec<Message>, conversation_id: String) -> InvokeResult {
-    println!("messages: {:?}", messages);
     let openai = get_openai().unwrap();
 
     let body = ChatBody {
@@ -46,23 +46,42 @@ pub async fn send_content(messages: Vec<Message>, conversation_id: String) -> In
 }
 
 const CONVERSATIONS_FILE: &str = "conversations.txt";
+const CONFIG_FILE: &str = "gptpal.conf";
 
 #[tauri::command]
 pub fn save_conversations(conversation_map: String) {
-    let path = Path::new(CONVERSATIONS_FILE);
+    write_file(CONVERSATIONS_FILE, conversation_map);
+}
+
+#[tauri::command]
+pub fn load_conversations() -> String {
+    read_file(CONVERSATIONS_FILE)
+}
+
+#[tauri::command]
+pub fn save_config(config: String) {
+    write_file(CONFIG_FILE, config);
+}
+
+#[tauri::command]
+pub fn load_config() -> String {
+    read_file(CONFIG_FILE)
+}
+
+fn write_file(file_path: &str, data: String) {
+    let path = Path::new(file_path);
     let mut file = OpenOptions::new()
         .create(true)
         .write(true)
         .truncate(true)
         .open(path)
         .expect("Failed to open file");
-    file.write(conversation_map.as_bytes())
+    file.write(data.as_bytes())
         .expect("Failed to write conversations to file");
 }
 
-#[tauri::command]
-pub fn load_conversations() -> String {
-    let path = Path::new(CONVERSATIONS_FILE);
+fn read_file(file_path: &str) -> String {
+    let path = Path::new(file_path);
     let mut data = String::new();
     if !path.exists() {
         return data;
@@ -70,6 +89,17 @@ pub fn load_conversations() -> String {
     let mut file = File::open(path).unwrap();
     file.read_to_string(&mut data).expect("Failed to load file");
     data
+}
+
+#[tauri::command]
+pub async fn list_models() -> String {
+    let openai = get_openai().unwrap();
+    let models = openai.models_list().unwrap();
+    let filtered_models = models
+        .iter()
+        .filter(|m| m.id.contains("gpt") && !m.permission.is_empty())
+        .collect::<Vec<_>>();
+    serde_json::to_string(&filtered_models).unwrap()
 }
 
 fn convert_to_html(content: &str) -> String {
