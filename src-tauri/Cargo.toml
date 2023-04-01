@@ -16,11 +16,13 @@ tauri-build = { version = "1.2", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.2", features = ["shell-open"] }
 lazy_static = "1.4.0"
-pulldown-cmark = "0.9"
+# tauri
+tauri = { version = "1.2", features = ["shell-open"] }
+tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 # openai
 openai_api_rust = "0.1"
+pulldown-cmark = "0.9"
 
 [patch.crates-io]
 openai_api_rust = { git = "https://github.com/openai-rs/openai-api.git" }

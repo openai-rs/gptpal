@@ -25,6 +25,7 @@ fn main() {
             load_conversations,
             save_conversations
         ])
+        .plugin(tauri_plugin_window_state::Builder::default().build())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
