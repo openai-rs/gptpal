@@ -59,6 +59,7 @@ const Role = {
 
 // Send content to backend API
 function sendChatContent() {
+  hidePin();
   let content = chatContentInput.value;
   appendMsg(Role.user, content);
   chatContentInput.value = "";
@@ -97,6 +98,14 @@ function loadConversationMap() {
     })
   });
 
+}
+
+function showHome() {
+  document.getElementById("home-div").style.display = "block";
+}
+
+function hideHome() {
+  document.getElementById("home-div").style.display = "none";
 }
 
 function loadConfig() {
@@ -167,6 +176,7 @@ function updateModel() {
 }
 
 function loadConversationHistory(conversationId) {
+  hideHome();
   let history = conversationMap[conversationId];
   history.forEach((val) => {
     chatHistory.appendChild(buildMessageNode(val.role, val.content));
@@ -298,6 +308,7 @@ function clearActiveConversation() {
   activeNode && activeNode.classList.remove("active");
   curConversationId = null;
   chatHistory.innerHTML = "";
+  showHome();
 }
 
 function appendMsg(role, content) {

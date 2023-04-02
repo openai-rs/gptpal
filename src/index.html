@@ -368,7 +368,8 @@
     text-transform: capitalize;
   }
 
-  #suggestions div:first-of-type, #suggestions div:hover {
+  #suggestions div:first-of-type,
+  #suggestions div:hover {
     background-color: #ddd;
   }
 
@@ -376,6 +377,44 @@
     background-color: #4CAF50;
     color: white;
   }
+
+  #home-div {
+    position: fixed;
+    height: calc(70% + 13px);
+    width: 80%;
+    top: 0;
+    left: 20%;
+    background-color: white;
+  }
+
+  .pin-prompt {
+    background-color: #f7f7f8;
+    min-height: 70px;
+    min-width: 100px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 30%;
+    height: 20%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pin-prompt:hover {
+    background-color: #d9d9e3;
+  }
+
+  #prompts-list {
+    width: 100%;
+    height: calc(100% - 95px);
+    padding: 50px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
 </style>
 
 <body>
@@ -400,6 +439,14 @@
       </div>
     </div>
     <div class="col" id="right-panel">
+      <div id="home-div" class="col" style="justify-content: start;">
+        <div class="raw" style="margin-top: 30px;"><img width="50px" src="assets/openai-rs.png">
+          <h1>GPTPal</h1>
+        </div>
+        <div id="prompts-list">
+          <div class="pin-prompt"></div>
+        </div>
+      </div>
       <div class="chat-name">
         GPT Pal
         <span class="typing" id="typing">⌨️ Typing...</span>
