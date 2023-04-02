@@ -11,7 +11,9 @@
 | Select Model | ✔️ |
 | Set proxy | ✔️ |
 | Config Model | ✔️ |
-| Prompts | 🚧 |
+| Input newline | ✔️ |
+| Prompts sync  | 🚧 |
+| Prompts hint | 🚧 |
 | Select language | 🚧 |
 | Optimize tokens | 🚧 |
 | Usage progress | 🚧 |

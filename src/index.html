@@ -126,6 +126,8 @@
   .user-message .textarea {
     margin-right: 10px;
     background-color: #89D961;
+    min-height: 40px;
+    box-sizing: border-box;
   }
 
   .bot-message .textarea {
@@ -376,7 +378,8 @@
       </div>
       <div id="chat-history" calss="col"></div>
       <div id="chat-input">
-        <textarea id="chat-content"></textarea>
+        <textarea id="chat-content" onkeydown=""
+          placeholder="Use slash `/` to get prompts suggestions, `Tab` to select a prompt. Press 'Shift + Enter' to create a new line."></textarea>
         <button id="chat-send" onclick="sendChatContent()">Send</button>
       </div>
     </div>

@@ -27,7 +27,9 @@ window.addEventListener("DOMContentLoaded", () => {
   conversationsDiv = document.getElementById("conversations");
   coverDiv = document.getElementById("cover");
   chatContentInput.addEventListener("keydown", function (event) {
-    if (event.key === 'Enter') {
+    if (event.shiftKey && event.key === 'Enter') {
+      chatContentInput.value = chatContentInput.value + "\n";
+    } else if (event.key === 'Enter') {
       event.preventDefault();
       sendChatContent();
     }
