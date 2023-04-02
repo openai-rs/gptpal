@@ -3,10 +3,21 @@ const { invoke } = window.__TAURI__.tauri;
 let chatHistory;
 let chatContentInput;
 let conversationsDiv;
+let coverDiv;
 // Global variable
 let curConversationId;
 let Config = {
-  curModel: "",
+  api_key: null,
+  organization: null,
+  proxy: null,
+  api_url: null,
+  model: {
+    model_id: null,
+    max_tokens: null,
+    temperature: null,
+    presence_penalty: null,
+    frequency_penalty: null,
+  }
 }
 let conversationMap = {};
 
@@ -14,6 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
   chatHistory = document.getElementById("chat-history")
   chatContentInput = document.getElementById("chat-content")
   conversationsDiv = document.getElementById("conversations");
+  coverDiv = document.getElementById("cover");
   chatContentInput.addEventListener("keydown", function (event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -22,7 +34,6 @@ window.addEventListener("DOMContentLoaded", () => {
   })
   loadConfig();
   loadConversationMap();
-  initModelSelect();
 });
 
 const Role = {
@@ -77,12 +88,63 @@ async function loadConfig() {
     return;
   }
   let json = JSON.parse(config);
+  document.getElementById("key-input").value = json.api_key;
+  document.getElementById("org-input").value = json.organization;
+  document.getElementById("url-input").value = json.api_url;
+  document.getElementById("proxy-input").value = json.proxy;
   Config = json;
+  // model config
+  document.getElementById("max-tokens-input").value = Config.model.max_tokens;
+  document.getElementById("temperature-input").value = Config.model.temperature;
+  document.getElementById("presence-input").value = Config.model.presence_penalty;
+  document.getElementById("frequency-input").value = Config.model.frequency_penalty;
+  updateOpenAi();
 }
 
 async function saveConfig() {
   let config = JSON.stringify(Config);
   invoke("save_config", { config: config });
+}
+
+function saveApi() {
+  Config.api_key = document.getElementById("key-input").value;
+  Config.organization = document.getElementById("org-input").value;
+  Config.api_url = document.getElementById("url-input").value;
+  Config.proxy = document.getElementById("proxy-input").value;
+  Config.api_key = Config.api_key ? Config.api_key : null;
+  Config.organization = Config.organization ? Config.organization : null;
+  Config.api_url = Config.api_url ? Config.api_url : null;
+  Config.proxy = Config.proxy ? Config.proxy : null;
+  saveConfig();
+  closeCover();
+  updateOpenAi();
+}
+
+function updateOpenAi() {
+  invoke("update_api", { config: Config }).then(() => {
+    initModelSelect();
+  });
+}
+
+function saveModel() {
+  Config.model.model_id = document.getElementById("select-model").value;
+  Config.model.max_tokens = document.getElementById("max-tokens-input").value;
+  Config.model.temperature = document.getElementById("temperature-input").value;
+  Config.model.presence_penalty = document.getElementById("presence-input").value;
+  Config.model.frequency_penalty = document.getElementById("frequency-input").value;
+
+  Config.model.model_id = Config.model.model_id ? Config.model.model_id : null;
+  Config.model.max_tokens = Config.model.max_tokens ? parseInt(Config.model.max_tokens) : null;
+  Config.model.temperature = Config.model.temperature ? parseFloat(Config.model.temperature) : null;
+  Config.model.presence_penalty = Config.model.presence_penalty ? parseFloat(Config.model.presence_penalty) : null;
+  Config.model.frequency_penalty = Config.model.frequency_penalty ? parseFloat(Config.model.frequency_penalty) : null;
+  saveConfig();
+  closeCover();
+  updateModel();
+}
+
+function updateModel() {
+  invoke("update_model", { config: Config.model });
 }
 
 function loadConversationHistory(conversationId) {
@@ -176,17 +238,17 @@ async function initModelSelect() {
     option.textContent = model.id;
     selectModel.appendChild(option);
   })
-  if (Config.curModel) {
-    selectModel.value = Config.curModel;
+  if (Config.model.model_id) {
+    selectModel.value = Config.model.model_id;
   } else {
-    Config.curModel = selectModel.value;
+    selectModel.value = "gpt-3.5-turbo";
   }
-
 }
 
 function modelChange() {
-  Config.curModel = document.getElementById("select-model").value;
+  Config.model.model_id = document.getElementById("select-model").value;
   saveConfig();
+  updateModel();
 }
 
 function buildTitleNode(conversationId, title, isActive) {
@@ -231,4 +293,26 @@ function subTitle(content) {
     title = content;
   }
   return title;
+}
+
+function openApiDialog() {
+  openCover();
+  document.getElementById("api-dialog").style.display = "flex";
+}
+
+function openModelDialog() {
+  openCover();
+  document.getElementById("model-dialog").style.display = "flex";
+}
+
+function openCover() {
+  coverDiv.style.display = "block";
+}
+
+function closeCover() {
+  coverDiv.style.display = "none";
+  let dialogs = document.getElementsByClassName("dialog");
+  for (let i = 0; i < dialogs.length; i++) {
+    dialogs[i].style.display = "none";
+  }
 }

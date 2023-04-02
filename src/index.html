@@ -156,7 +156,7 @@
     overflow-y: auto;
   }
 
-  #settings .setting-item:hover,
+  #settings .setting-item:hover:not(.no-hover),
   #conversations .conversation:hover,
   #conversations .conversation.active {
     background-color: rgba(58, 62, 70, 1);
@@ -229,6 +229,11 @@
     align-items: center;
   }
 
+  .space-around {
+    display: flex;
+    justify-content: space-around;
+  }
+
   .btn {
     cursor: pointer;
   }
@@ -267,6 +272,9 @@
     line-height: 20px;
     box-sizing: border-box;
     border-radius: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 
   #progress-bar {
@@ -293,7 +301,51 @@
     outline: none;
     padding: 1px;
     border-radius: 3px;
+    text-overflow: ellipsis;
+    overflow-y: hidden;
   }
+
+  .dialog {
+    display: none;
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 3px;
+    z-index: 1000;
+    background-color: #232629;
+    color: white;
+    top: 30%;
+    height: 30%;
+    width: 40%;
+    border-radius: 5px;
+  }
+
+  #model-dialog input {
+    width: 200px;
+  }
+
+  #cover {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: none;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+  }
+
+
+  .div-btn {
+    background-color: gray;
+    padding: 5px 13px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
 </style>
 
 <body>
@@ -307,9 +359,10 @@
       </div>
       <hr style="border-color: gray; margin: 0 10px;">
       <div id="settings" class="col">
-        <div class="setting-item" onclick="clearConversations()">🗑️ Clear conversations</div>
-        <div class="setting-item">🔑 Change API Key</div>
-        <div class="setting-item">🤖 <select id="select-model" onchange="modelChange()" name="select-model">
+        <div class="setting-item" onclick="clearConversations()">🗑️ Clear chats</div>
+        <div class="setting-item" onclick="openApiDialog()">🔑 API settings</div>
+        <div class="setting-item" onclick="openModelDialog()">⚙️ Model settings</div>
+        <div class="setting-item no-hover">🤖 <select id="select-model" onchange="modelChange()" name="select-model">
           </select></div>
         <div id="progress-bar">
           <div id="progress" style="width: 0;"></div>
@@ -327,6 +380,50 @@
         <button id="chat-send" onclick="sendChatContent()">Send</button>
       </div>
     </div>
+  </div>
+  <div id="api-dialog" class="dialog col">
+    <div class="raw" style="justify-content: space-around; width: 80%;">
+      <div class="col space-around" style="align-items: start; height: 250px;">
+        <div>API key:</div>
+        <div>Organization:</div>
+        <div>API url:</div>
+        <div>Proxy:</div>
+        <div style="height: 34px;"></div>
+      </div>
+      <div class="col space-around" style="align-items: end; height: 250px;">
+        <input id="key-input" type="password" placeholder="${OPENAI_API_KEY}" />
+        <input id="org-input" autocomplete="off" placeholder="<Default organization>" />
+        <input id="url-input" placeholder="https://api.openai.com/v1/" />
+        <input id="proxy-input" placeholder="No proxy" />
+        <div class="div-btn" onclick="saveApi()" style="position: relative; top:10px;">Save</div>
+      </div>
+    </div>
+  </div>
+  <div id="model-dialog" class="dialog col">
+    <div class="raw" style="justify-content: space-around; width: 80%;">
+      <div class="col space-around" style="align-items: start; height: 250px;">
+        <div>Max tokens:</div>
+        <div
+          title="Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.">
+          Temperature: ❓</div>
+        <div
+          title="Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.">
+          Presence penalty: ❓</div>
+        <div
+          title="Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.">
+          Frequency penalty: ❓</div>
+        <div style="height: 34px;"></div>
+      </div>
+      <div class="col space-around" style="align-items: end; height: 250px;">
+        <input id="max-tokens-input" type="number" min="1" placeholder="No limit" />
+        <input id="temperature-input" step="0.1" type="number" min="0" max="2" placeholder="0 ~ 2, defaults to 1" />
+        <input id="presence-input" step="0.1" type="number" min="-2" max="2" placeholder="-2.0 ~ 2.0, defaults to -1" />
+        <input id="frequency-input" step="0.1" type="number" min="-2" max="2" placeholder="-2.0 ~ 2.0, defaults to 0" />
+        <div class="div-btn" onclick="saveModel()" style="position: relative; top:10px;">Save</div>
+      </div>
+    </div>
+  </div>
+  <div id="cover" onclick="closeCover()">
   </div>
 </body>
 

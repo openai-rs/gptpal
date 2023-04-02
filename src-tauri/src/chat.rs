@@ -16,20 +16,9 @@ type InvokeResult = Result<serde_json::Value, String>;
 pub async fn send_content(messages: Vec<Message>, conversation_id: String) -> InvokeResult {
     let openai = get_openai().unwrap();
 
-    let body = ChatBody {
-        model: "gpt-3.5-turbo".to_string(),
-        max_tokens: None,
-        temperature: Some(0.7),
-        top_p: Some(0.9),
-        n: Some(1),
-        stream: None,
-        stop: None,
-        presence_penalty: None,
-        frequency_penalty: None,
-        logit_bias: None,
-        user: None,
-        messages,
-    };
+    let body = construct_chat_request(messages);
+    println!("body: {:?}", body);
+
     let rs = openai.chat_completion_create(&body);
     let content;
     match rs {
@@ -91,6 +80,45 @@ fn read_file(file_path: &str) -> String {
     data
 }
 
+fn construct_chat_request(messages: Vec<Message>) -> ChatBody{
+    let model_config;
+    {
+        let global_model = MODEL_CONFIG.read().unwrap();
+        model_config = (*global_model).clone();
+    }
+
+    if let Some(model) = model_config {
+        return ChatBody {
+            model: model.model_id.unwrap_or("gpt-3.5-turbo".to_string()),
+            max_tokens: model.max_tokens,
+            temperature: model.temperature,
+            top_p: None,
+            n: Some(1),
+            stream: None,
+            stop: None,
+            presence_penalty: model.presence_penalty,
+            frequency_penalty: model.frequency_penalty,
+            logit_bias: None,
+            user: None,
+            messages,
+        }
+    }
+    ChatBody {
+        model: "gpt-3.5-turbo".to_string(),
+        max_tokens: None,
+        temperature: Some(0.7),
+        top_p: Some(0.9),
+        n: Some(1),
+        stream: None,
+        stop: None,
+        presence_penalty: None,
+        frequency_penalty: None,
+        logit_bias: None,
+        user: None,
+        messages,
+    }
+}
+
 #[tauri::command]
 pub async fn list_models() -> String {
     let openai = get_openai().unwrap();
@@ -107,4 +135,40 @@ fn convert_to_html(content: &str) -> String {
     let mut html_content = String::new();
     pulldown_cmark::html::push_html(&mut html_content, parser);
     html_content
+}
+
+#[tauri::command]
+pub fn update_api(config: Config) {
+    let mut auth;
+
+    if let Some(api_key) = config.api_key {
+        auth = Auth::new(&api_key);
+    } else {
+        auth = Auth::from_env().unwrap_or(Auth {
+            api_key: "".to_string(),
+            organization: None,
+        });
+    }
+    if let Some(org) = config.organization {
+        auth.organization = Some(org);
+    }
+
+    let mut api_url = "https://api.openai.com/v1/".to_string();
+    if let Some(url) = config.api_url {
+        api_url = url;
+    }
+
+    let mut openai =
+        OpenAI::new(auth, &api_url);
+    if let Some(proxy) = config.proxy {
+        openai = openai.set_proxy(&proxy);
+    }
+    let mut openai_global = OPENAI.write().unwrap();
+    *openai_global = Some(openai);
+}
+
+#[tauri::command]
+pub fn update_model(config: ModelConfig) {
+    let mut model_global = MODEL_CONFIG.write().unwrap();
+    *model_global = Some(config);
 }

@@ -7,9 +7,10 @@
 | Render markdown | ✔️ |
 | Highlight & Copy code | ✔️ |
 | Remember window state | ✔️ |
-| Set API Key | 🚧 |
+| Set API Key | ✔️ |
 | Select Model | ✔️ |
-| Config Model | 🚧 |
+| Set proxy | ✔️ |
+| Config Model | ✔️ |
 | Prompts | 🚧 |
 | Select language | 🚧 |
 | Optimize tokens | 🚧 |
@@ -17,3 +18,4 @@
 | Cross platform | 🚧 |
 | Theme | 🚧 |
 | Modify title | ❓ |
+| Voice input | ❓ |
