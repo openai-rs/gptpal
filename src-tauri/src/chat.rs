@@ -17,7 +17,6 @@ pub async fn send_content(messages: Vec<Message>, conversation_id: String) -> In
     let openai = get_openai().unwrap();
 
     let body = construct_chat_request(messages);
-    println!("body: {:?}", body);
 
     let rs = openai.chat_completion_create(&body);
     let content;
@@ -57,7 +56,7 @@ pub fn load_config() -> String {
     read_file(CONFIG_FILE)
 }
 
-fn write_file(file_path: &str, data: String) {
+pub(crate) fn write_file(file_path: &str, data: String) {
     let path = Path::new(file_path);
     let mut file = OpenOptions::new()
         .create(true)
@@ -69,7 +68,7 @@ fn write_file(file_path: &str, data: String) {
         .expect("Failed to write conversations to file");
 }
 
-fn read_file(file_path: &str) -> String {
+pub(crate) fn read_file(file_path: &str) -> String {
     let path = Path::new(file_path);
     let mut data = String::new();
     if !path.exists() {

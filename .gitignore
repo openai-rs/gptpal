@@ -26,3 +26,4 @@ dist-ssr
 # data files
 conversations.txt
 gptpal.conf
+prompts.json

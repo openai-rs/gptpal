@@ -13,11 +13,13 @@
 | Config Model | ✔️ |
 | Input newline | ✔️ |
 | Prompts sync  | 🚧 |
-| Prompts hint | 🚧 |
+| Prompts suggestions hint | ✔️ |
+| Prompts pin | 🚧 |
 | Select language | 🚧 |
 | Optimize tokens | 🚧 |
 | Usage progress | 🚧 |
 | Cross platform | 🚧 |
 | Theme | 🚧 |
-| Modify title | ❓ |
-| Voice input | ❓ |
+| Modify title | 🚧 |
+| Voice input | 🚧 |
+| Prompts manage | 🚧 |

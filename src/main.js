@@ -4,6 +4,7 @@ let chatHistory;
 let chatContentInput;
 let conversationsDiv;
 let coverDiv;
+let suggestions;
 // Global variable
 let curConversationId;
 let Config = {
@@ -20,11 +21,13 @@ let Config = {
   }
 }
 let conversationMap = {};
+let promptsMap = null;
 
 window.addEventListener("DOMContentLoaded", () => {
   chatHistory = document.getElementById("chat-history")
   chatContentInput = document.getElementById("chat-content")
   conversationsDiv = document.getElementById("conversations");
+  suggestions = document.getElementById("suggestions");
   coverDiv = document.getElementById("cover");
   chatContentInput.addEventListener("keydown", function (event) {
     if (event.shiftKey && event.key === 'Enter') {
@@ -32,10 +35,20 @@ window.addEventListener("DOMContentLoaded", () => {
     } else if (event.key === 'Enter') {
       event.preventDefault();
       sendChatContent();
+    } else if (event.key === 'Tab' && chatContentInput.value.startsWith('/')) {
+      if (suggestions.style.display == 'block') {
+        event.preventDefault();
+        let first = suggestions.firstChild;
+        let promptKey = first.innerText.toLowerCase();
+        let content = promptsMap[promptKey];
+        chatContentInput.value = content;
+        hideSuggestions();
+      }
     }
   })
   loadConfig();
   loadConversationMap();
+  loadPrompts();
 });
 
 const Role = {
@@ -71,36 +84,40 @@ function sendChatContent() {
     });
 }
 
-async function loadConversationMap() {
-  let conversations = await invoke("load_conversations");
-  if (!conversations) {
-    return;
-  }
-  let json = JSON.parse(conversations);
-  conversationMap = json;
-  Object.keys(json).reverse().forEach((key) => {
-    const value = json[key];
-    conversationsDiv.appendChild(buildTitleNode(key, subTitle(value[0].content)));
-  })
+function loadConversationMap() {
+  invoke("load_conversations").then((conversations) => {
+    if (!conversations) {
+      return;
+    }
+    let json = JSON.parse(conversations);
+    conversationMap = json;
+    Object.keys(json).reverse().forEach((key) => {
+      const value = json[key];
+      conversationsDiv.appendChild(buildTitleNode(key, subTitle(value[0].content)));
+    })
+  });
+
 }
 
-async function loadConfig() {
-  let config = await invoke("load_config");
-  if (!config) {
-    return;
-  }
-  let json = JSON.parse(config);
-  document.getElementById("key-input").value = json.api_key;
-  document.getElementById("org-input").value = json.organization;
-  document.getElementById("url-input").value = json.api_url;
-  document.getElementById("proxy-input").value = json.proxy;
-  Config = json;
-  // model config
-  document.getElementById("max-tokens-input").value = Config.model.max_tokens;
-  document.getElementById("temperature-input").value = Config.model.temperature;
-  document.getElementById("presence-input").value = Config.model.presence_penalty;
-  document.getElementById("frequency-input").value = Config.model.frequency_penalty;
-  updateOpenAi();
+function loadConfig() {
+  invoke("load_config").then(config => {
+    if (!config) {
+      return;
+    }
+    let json = JSON.parse(config);
+    document.getElementById("key-input").value = json.api_key;
+    document.getElementById("org-input").value = json.organization;
+    document.getElementById("url-input").value = json.api_url;
+    document.getElementById("proxy-input").value = json.proxy;
+    Config = json;
+    // model config
+    document.getElementById("max-tokens-input").value = Config.model.max_tokens;
+    document.getElementById("temperature-input").value = Config.model.temperature;
+    document.getElementById("presence-input").value = Config.model.presence_penalty;
+    document.getElementById("frequency-input").value = Config.model.frequency_penalty;
+    updateOpenAi();
+  });
+
 }
 
 async function saveConfig() {
@@ -231,20 +248,22 @@ function saveConversations() {
   invoke("save_conversations", { conversationMap: JSON.stringify(conversationMap) });
 }
 
-async function initModelSelect() {
-  let models = await invoke("list_models");
-  let json = JSON.parse(models);
-  let selectModel = document.getElementById("select-model");
-  json.reverse().forEach(model => {
-    let option = document.createElement("option");
-    option.textContent = model.id;
-    selectModel.appendChild(option);
-  })
-  if (Config.model.model_id) {
-    selectModel.value = Config.model.model_id;
-  } else {
-    selectModel.value = "gpt-3.5-turbo";
-  }
+function initModelSelect() {
+  invoke("list_models").then((models) => {
+    let json = JSON.parse(models);
+    let selectModel = document.getElementById("select-model");
+    json.reverse().forEach(model => {
+      let option = document.createElement("option");
+      option.textContent = model.id;
+      selectModel.appendChild(option);
+    })
+    if (Config.model.model_id) {
+      selectModel.value = Config.model.model_id;
+    } else {
+      selectModel.value = "gpt-3.5-turbo";
+    }
+  });
+
 }
 
 function modelChange() {
@@ -317,4 +336,58 @@ function closeCover() {
   for (let i = 0; i < dialogs.length; i++) {
     dialogs[i].style.display = "none";
   }
+}
+
+function syncPrompts() {
+  let proxy = Config.proxy ? Config.proxy : null;
+  invoke("sync_prompts_en", { proxy: proxy });
+}
+
+function loadPrompts() {
+  invoke("load_prompts").then((data) => {
+    if (data) {
+      promptsMap = JSON.parse(data);
+      chatContentInput.addEventListener("input", function () {
+        let inputText = chatContentInput.value;
+        if (!inputText || !inputText.startsWith('/')) {
+          hideSuggestions();
+          return;
+        }
+        let matches = findMatches(inputText);
+        if (matches.length > 0) {
+          showMatches(matches);
+        } else {
+          hideSuggestions();
+        }
+      });
+    }
+  })
+
+}
+
+function findMatches(text) {
+  text = text.replace("/", "");
+  return Object.keys(promptsMap).filter(title => title.toLowerCase().includes(text.toLowerCase()));
+}
+
+function showMatches(matches) {
+  while (suggestions.firstChild) {
+    suggestions.removeChild(suggestions.firstChild);
+  }
+
+  matches.forEach(match => {
+    let option = document.createElement("div");
+    option.textContent = match;
+    option.addEventListener("click", function () {
+      chatContentInput.value = promptsMap[match];
+      hideSuggestions();
+    });
+    suggestions.appendChild(option);
+  });
+
+  suggestions.style.display = "block";
+}
+
+function hideSuggestions() {
+  suggestions.style.display = "none";
 }

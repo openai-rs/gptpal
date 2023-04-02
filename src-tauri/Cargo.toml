@@ -23,6 +23,9 @@ tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-works
 # openai
 openai_api_rust = "0.1"
 pulldown-cmark = "0.9"
+# prompts
+ureq = "2.6"
+select = "0.6"
 
 [patch.crates-io]
 openai_api_rust = { git = "https://github.com/openai-rs/openai-api.git" }
