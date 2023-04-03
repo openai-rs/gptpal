@@ -1,5 +1,7 @@
 <div style="display: flex; justify-content: center; align-items: center">
+
 <img width="150px" src="src/assets/openai-rs.png" alt="openai-rs"/><div style="line-height: 150px; font-size: 5em;">GPTPal</div>
+
 </div>
 
 <div align=center>
@@ -10,9 +12,8 @@ Chat with GPTs just like chatting with your many friends.
 
 </div>
 
-![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/jiguantong/gptpal?style=flat-square)
-![GitHub](https://img.shields.io/github/license/jiguantong/gptpal?style=flat-square)
-
+![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/openai-rs/gptpal?style=flat-square)
+![GitHub](https://img.shields.io/github/license/openai-rs/gptpal?style=flat-square)
 
 A ChatGPT desktop application that allows you to chat with GPTs simultaneously. It records conversations locally and provides various features such as prompt suggestions, markdown rendering, highlighting and copying code, restoring window state, API, model, and proxy configuration, and pinning of prompts.
 

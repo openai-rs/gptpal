@@ -1,5 +1,7 @@
 <div style="display: flex; justify-content: center; align-items: center">
+
 <img width="150px" src="src/assets/openai-rs.png" alt="openai-rs"/><div style="line-height: 150px; font-size: 5em;">GPTPal</div>
+
 </div>
 
 <div align=center>
@@ -10,8 +12,8 @@ Chat with GPTs just like chatting with your many friends.
 
 </div>
 
-![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/jiguantong/gptpal?style=flat-square)
-![GitHub](https://img.shields.io/github/license/jiguantong/gptpal?style=flat-square)
+![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/openai-rs/gptpal?style=flat-square)
+![GitHub](https://img.shields.io/github/license/openai-rs/gptpal?style=flat-square)
 
 
 ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prompt联想。本地存储对话记录。可配置代理。
