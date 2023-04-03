@@ -12,8 +12,9 @@ Chat with GPTs just like chatting with your many friends.
 
 </div>
 
-![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/openai-rs/gptpal?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/openai-rs/gptpal/release.yml?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/openai-rs/gptpal?style=flat-square)
+<img src="https://img.shields.io/badge/platform-MacOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square"/>
 
 
 ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prompt联想。本地存储对话记录。可配置代理。

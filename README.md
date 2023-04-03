@@ -13,8 +13,9 @@ Chat with GPTs just like chatting with your many friends.
 
 </div>
 
-![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/openai-rs/gptpal?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/openai-rs/gptpal/release.yml?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/openai-rs/gptpal?style=flat-square)
+<img src="https://img.shields.io/badge/platform-MacOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square"/>
 
 A ChatGPT desktop application that allows you to chat with GPTs simultaneously. It records conversations locally and provides various features such as prompt suggestions, markdown rendering, highlighting and copying code, restoring window state, API, model, and proxy configuration, and pinning of prompts.
 
