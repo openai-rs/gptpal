@@ -41,10 +41,10 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 | Model 配置 | ✔️ | 选择模型, 配置模型请求参数 |
 | 代理配置 | ✔️ | 配置 API 使用的代理 |
 | 钉选 prompts | ✔️ | 自定义钉选 prompts |
+| 跨平台 | ✔️ | 支持 Windows, Macos, Linux |
 | 语言选择 | 🚧 | 选择回复语言 |
 | Token 优化 | 🚧 | 优化token使用 |
 | Token 用量 | 🚧 | 检查token用量 |
-| 多平台 | 🚧 | 支持 Windows, Macos, Linux |
 | 主题 | 🚧 | 更改主题样式 |
 | 修改标题 | 🚧 | 修改对话主题 |
 | 声音输入 | 🚧 | 语音聊天 |
@@ -54,7 +54,7 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
 ## 安装
 
-1. Releases 页面下载
+1. [Releases](https://github.com/openai-rs/gptpal/releases) 页面下载最新安装包
 
 2. 安装
 

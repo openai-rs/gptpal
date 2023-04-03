@@ -1,10 +1,10 @@
 [package]
 name = "gptpal"
 version = "0.1.0"
-description = "A desktop application for chatgpt"
+description = "ChatGPT desktop application"
 authors = ["i@guantong.dev"]
 license = "GPL-3.0-or-later"
-repository = ""
+repository = "https://github.com/openai-rs/gptpal"
 edition = "2021"
 rust-version = "1.57"
 
@@ -21,14 +21,11 @@ lazy_static = "1.4.0"
 tauri = { version = "1.2", features = ["shell-open"] }
 tauri-plugin-window-state = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "dev" }
 # openai
-openai_api_rust = "0.1"
+openai_api_rust = "0.1.5"
 pulldown-cmark = "0.9"
 # prompts
 ureq = "2.6"
 select = "0.6"
-
-[patch.crates-io]
-openai_api_rust = { git = "https://github.com/openai-rs/openai-api.git" }
 
 [features]
 # by default Tauri runs in production mode

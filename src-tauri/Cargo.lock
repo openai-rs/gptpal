@@ -1953,8 +1953,9 @@ dependencies = [
 
 [[package]]
 name = "openai_api_rust"
-version = "0.1.4"
-source = "git+https://github.com/openai-rs/openai-api.git#ef5b56b88b18f40c94ea86e22225d5bd298e3041"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1ff2d085bfcf6dfa677cd72528cfe3c9584cad23aabe59a70c7ec8573061dfbd"
 dependencies = [
  "log 0.4.17",
  "mime 0.3.17",
