@@ -8,6 +8,7 @@ const PROMPTS_FILE: &str = "prompts.json";
 
 #[tauri::command]
 pub async fn sync_prompts_en(proxy: Option<&str>) -> Result<(), String> {
+    println!("Sync prompts...");
     let html;
     if let Some(proxy) = proxy {
         let proxy = ureq::Proxy::new(proxy).unwrap();
@@ -58,6 +59,7 @@ pub async fn sync_prompts_en(proxy: Option<&str>) -> Result<(), String> {
         map.insert(title.to_lowercase(), content);
     }
     write_file(PROMPTS_FILE, serde_json::to_string(&map).unwrap());
+    println!("Sync prompts done.");
     Ok(())
 }
 

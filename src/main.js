@@ -59,7 +59,7 @@ const Role = {
 
 // Send content to backend API
 function sendChatContent() {
-  hidePin();
+  hideHome();
   let content = chatContentInput.value;
   appendMsg(Role.user, content);
   chatContentInput.value = "";
@@ -101,7 +101,7 @@ function loadConversationMap() {
 }
 
 function showHome() {
-  document.getElementById("home-div").style.display = "block";
+  document.getElementById("home-div").style.display = "flex";
 }
 
 function hideHome() {
@@ -351,13 +351,16 @@ function closeCover() {
 
 function syncPrompts() {
   let proxy = Config.proxy ? Config.proxy : null;
-  invoke("sync_prompts_en", { proxy: proxy });
+  invoke("sync_prompts_en", { proxy: proxy }).then(() => {
+    loadPrompts();
+  });
 }
 
 function loadPrompts() {
   invoke("load_prompts").then((data) => {
     if (data) {
       promptsMap = JSON.parse(data);
+      updateHomePrompts();
       chatContentInput.addEventListener("input", function () {
         let inputText = chatContentInput.value;
         if (!inputText || !inputText.startsWith('/')) {
@@ -373,7 +376,27 @@ function loadPrompts() {
       });
     }
   })
+}
 
+function updateHomePrompts() {
+  let html = "";
+  Object.values(promptsMap).forEach(prompt => {
+    let text = prompt;
+    text = text.replace("I want you to act as ", "");
+    text = text.replace("I want you to act as ", "");
+    text = text.replace("I want you act as ", "");
+    console.log("text: ", text);
+    html += "<div class='pin-prompt' onclick='clickPrompt(this)' title='" + prompt + "'>" + capitalizeFirstLetter(text) + "</div>"
+  });
+  document.getElementById("prompts-list").innerHTML = html;
+}
+
+function capitalizeFirstLetter(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function clickPrompt(ele) {
+  chatContentInput.value = ele.title;
 }
 
 function findMatches(text) {

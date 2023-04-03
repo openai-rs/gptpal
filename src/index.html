@@ -398,8 +398,11 @@
     margin-bottom: 20px;
     width: 30%;
     height: 20%;
+    line-height: 35px;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 10px;
+    box-sizing: border-box;
   }
 
   .pin-prompt:hover {
@@ -409,12 +412,28 @@
   #prompts-list {
     width: 100%;
     height: calc(100% - 95px);
-    padding: 50px;
-    padding-right: 10px;
+    padding: 30px;
+    padding-left: 40px;
+    padding-right: 0px;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
+  #sync-prompts {
+    align-self: end;
+    background-color: #f7f7f8;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 10px;
+    margin-bottom: 0;
+    margin-right: 0;
+  }
+
+  #sync-prompts:hover {
+    background-color: #d9d9e3;
+  }
 </style>
 
 <body>
@@ -444,8 +463,10 @@
           <h1>GPTPal</h1>
         </div>
         <div id="prompts-list">
-          <div class="pin-prompt"></div>
         </div>
+        <div id="sync-prompts"><span onclick="syncPrompts()">🔄 Click here to sync prompts from</span> <a
+            target="_blank"
+            href="https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md">awesome-chatgpt-prompts</a></div>
       </div>
       <div class="chat-name">
         GPT Pal

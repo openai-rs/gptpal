@@ -12,9 +12,9 @@
 | Set proxy | ✔️ |
 | Config Model | ✔️ |
 | Input newline | ✔️ |
-| Prompts sync  | 🚧 |
+| Sync prompts from awesome repo | ✔️ |
 | Prompts suggestions hint | ✔️ |
-| Prompts pin | 🚧 |
+| Prompts pin | ✔️ |
 | Select language | 🚧 |
 | Optimize tokens | 🚧 |
 | Usage progress | 🚧 |
