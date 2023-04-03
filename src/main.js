@@ -380,10 +380,10 @@ function loadPrompts() {
 }
 
 function updateHomePrompts() {
-  let html = "";
   let keys = Object.keys(promptsMap).sort((a, b) => {
     return promptsMap[b][1] - promptsMap[a][1];
   });
+  let promptsList = document.getElementById("prompts-list");
   keys.forEach((k) => {
     let prompt = promptsMap[k][0];
     let text = prompt;
@@ -392,13 +392,19 @@ function updateHomePrompts() {
     text = text.replace("I want you act as ", "");
     text = text.substring(0, 65);
     text = text + "...";
+    let promptDiv = document.createElement("div");
     if (promptsMap[k][1] > 100000) {
-      html += "<div class='pin-prompt fixed' onclick='clickPrompt(this)' title='" + prompt + "'>" + capitalizeFirstLetter(text) + "</div>"
+      promptDiv.innerHTML = "<div class='pin-prompt fixed' onclick='clickPrompt(this)'></div>"
+      promptDiv.firstChild.title = prompt;
+      promptDiv.firstChild.innerText = capitalizeFirstLetter(text);
     } else {
-      html += "<div class='pin-prompt' onclick='clickPrompt(this)' title='" + prompt + "'>" + capitalizeFirstLetter(text) + "</div>"
+      promptDiv.innerHTML = "<div class='pin-prompt' onclick='clickPrompt(this)'></div>"
+      promptDiv.firstChild.title = prompt;
+      promptDiv.firstChild.innerText = capitalizeFirstLetter(text);
     }
+    promptsList.appendChild(promptDiv.firstChild);
   })
-  document.getElementById("prompts-list").innerHTML = html;
+
 }
 
 function capitalizeFirstLetter(str) {

@@ -1,8 +1,9 @@
-<div style="display: flex; justify-content: center; align-items: center">
+<div align="center">
 
-<img width="150px" src="src/assets/openai-rs.png" alt="openai-rs"/><div style="line-height: 150px; font-size: 5em;">GPTPal</div>
+<img width="150px" src="src/assets/openai-rs.png" alt="openai-rs"/><h1 style="font-size: 5em; margin: 0;">GPTPal</h1>
 
 </div>
+
 
 <div align=center>
 
