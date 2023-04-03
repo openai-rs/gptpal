@@ -7,7 +7,7 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "gptpal",
+    "productName": "GPTPal",
     "version": "0.1.0"
   },
   "tauri": {

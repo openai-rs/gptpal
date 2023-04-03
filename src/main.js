@@ -34,13 +34,14 @@ window.addEventListener("DOMContentLoaded", () => {
       chatContentInput.value = chatContentInput.value + "\n";
     } else if (event.key === 'Enter') {
       event.preventDefault();
+      hideSuggestions();
       sendChatContent();
     } else if (event.key === 'Tab' && chatContentInput.value.startsWith('/')) {
       if (suggestions.style.display == 'block') {
         event.preventDefault();
-        let first = suggestions.firstChild;
+        let first = suggestions.firstChild.firstChild;
         let promptKey = first.innerText.toLowerCase();
-        let content = promptsMap[promptKey];
+        let content = promptsMap[promptKey][0];
         chatContentInput.value = content;
         hideSuggestions();
       }
@@ -380,14 +381,23 @@ function loadPrompts() {
 
 function updateHomePrompts() {
   let html = "";
-  Object.values(promptsMap).forEach(prompt => {
+  let keys = Object.keys(promptsMap).sort((a, b) => {
+    return promptsMap[b][1] - promptsMap[a][1];
+  });
+  keys.forEach((k) => {
+    let prompt = promptsMap[k][0];
     let text = prompt;
     text = text.replace("I want you to act as ", "");
     text = text.replace("I want you to act as ", "");
     text = text.replace("I want you act as ", "");
-    console.log("text: ", text);
-    html += "<div class='pin-prompt' onclick='clickPrompt(this)' title='" + prompt + "'>" + capitalizeFirstLetter(text) + "</div>"
-  });
+    text = text.substring(0, 65);
+    text = text + "...";
+    if (promptsMap[k][1] > 100000) {
+      html += "<div class='pin-prompt fixed' onclick='clickPrompt(this)' title='" + prompt + "'>" + capitalizeFirstLetter(text) + "</div>"
+    } else {
+      html += "<div class='pin-prompt' onclick='clickPrompt(this)' title='" + prompt + "'>" + capitalizeFirstLetter(text) + "</div>"
+    }
+  })
   document.getElementById("prompts-list").innerHTML = html;
 }
 
@@ -397,6 +407,7 @@ function capitalizeFirstLetter(str) {
 
 function clickPrompt(ele) {
   chatContentInput.value = ele.title;
+  sendChatContent();
 }
 
 function findMatches(text) {
@@ -408,18 +419,37 @@ function showMatches(matches) {
   while (suggestions.firstChild) {
     suggestions.removeChild(suggestions.firstChild);
   }
-
-  matches.forEach(match => {
+  let keys = matches.sort((a, b) => {
+    return promptsMap[b][1] - promptsMap[a][1];
+  });
+  keys.forEach(match => {
     let option = document.createElement("div");
-    option.textContent = match;
+    option.innerHTML = "<span></span>";
+    option.firstChild.innerText = match;
     option.addEventListener("click", function () {
-      chatContentInput.value = promptsMap[match];
+      chatContentInput.value = promptsMap[match][0];
       hideSuggestions();
     });
+    let pinBtn = document.createElement("div");
+    pinBtn.innerHTML = "<span onclick='fixedPin(event)' class='pin-btn'>📌</span>"
+    pinBtn.firstChild.setAttribute("data-key", match);
+    option.appendChild(pinBtn.firstChild);
     suggestions.appendChild(option);
   });
 
   suggestions.style.display = "block";
+}
+
+function fixedPin(event) {
+  let key = event.target.getAttribute("data-key");
+  if (promptsMap[key][1] > 10000) {
+    promptsMap[key][1] = 0;
+  } else {
+    promptsMap[key][1] = parseInt(new Date().getTime() / 1000);
+  }
+  updateHomePrompts();
+  invoke("save_prompts", { map: JSON.stringify(promptsMap) });
+  event.stopPropagation();
 }
 
 function hideSuggestions() {

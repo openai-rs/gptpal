@@ -10,7 +10,7 @@ use openai_api_rust::*;
 use serde::{Deserialize, Serialize};
 use std::sync::RwLock;
 
-use crate::prompt::{load_prompts, sync_prompts_en};
+use crate::prompt::{load_prompts, sync_prompts_en, save_prompts};
 
 #[macro_use]
 extern crate lazy_static;
@@ -33,6 +33,7 @@ fn main() {
             update_model,
             sync_prompts_en,
             load_prompts,
+            save_prompts,
         ])
         .plugin(tauri_plugin_window_state::Builder::default().build())
         .run(tauri::generate_context!())
