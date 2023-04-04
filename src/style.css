@@ -568,3 +568,8 @@ body {
     transform: rotate(360deg);
   }
 }
+
+#voice-input {
+  position: absolute;
+  bottom: 10px;
+}

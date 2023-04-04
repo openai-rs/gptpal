@@ -17,7 +17,7 @@ Chat with GPTs just like chatting with your many friends.
 <img src="https://img.shields.io/badge/platform-MacOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square"/>
 
 
-ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prompt联想。本地存储对话记录。可配置代理。
+ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prompt联想。本地存储对话记录。语音聊天。
 
 ---
 
@@ -43,31 +43,23 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 | 代理配置 | ✔️ | 配置 API 使用的代理 |
 | 钉选 prompts | ✔️ | 自定义钉选 prompts |
 | 跨平台 | ✔️ | 支持 Windows, Macos, Linux |
+| 声音输入输出 | ✔️ | 语音聊天 |
 | 语言选择 | 🚧 | 选择回复语言 |
 | Token 优化 | 🚧 | 优化token使用 |
 | Token 用量 | 🚧 | 检查token用量 |
 | 主题 | 🚧 | 更改主题样式 |
 | 修改标题 | 🚧 | 修改对话主题 |
-| 声音输入 | 🚧 | 语音聊天 |
 | Prompts 管理 | 🚧 | Prompts crud, pin |
 
 </div>
 
-## 安装
-
-1. [Releases](https://github.com/openai-rs/gptpal/releases) 页面下载最新安装包
-
-2. 安装
-
-3. 启动
-
 ## 使用
 
-### Basic
+1. [Releases](https://github.com/openai-rs/gptpal/releases) 页面下载最新安装包并安装
 
-1. 启动应用
+2. 启动应用
 
-2. 点击左下角 `API settings` 按钮打开 API 配置.
+3. 点击左下角 `API settings` 按钮打开 API 配置.
 
     a. 设置你的 [API key](https://platform.openai.com/account/api-keys), 如果想使用环境变量, 则系统配置 `OPENAI_API_KEY` 环境变量, 然后此处留空即可
 
@@ -77,9 +69,9 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
     d. 保存
 
-3. 与 GPT 聊天
+4. 与 GPT 聊天
 
-### Prompts
+## Prompts
 
 1. 点击主页右下角 'sync' 按钮可从 [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md) 同步 prompts.
 
@@ -89,7 +81,15 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
     <img width="745px" height="540px" src="src/assets/pin-prompt.png" />
 
-### 配置模型
+## 语音聊天 [test]
+
+1. 勾选播放器 🔉 可朗读GPT的回复
+
+2. 选择语言, 然后勾选麦克风 🎤 可以语音输入, 说'发送'即可发送
+
+    <img width="745px" height="540px" src="src/assets/voice.png" />
+
+## 配置模型
 
 点击左下角 `Model settings` 按钮可配置 max_tokens, temperature, presence_penalty 和 frequency_penalty.
 
