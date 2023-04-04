@@ -60,8 +60,12 @@ const Role = {
 
 // Send content to backend API
 function sendChatContent() {
-  hideHome();
   let content = chatContentInput.value;
+  if (!content.trim()) {
+    return;
+  }
+  clearVoiceCache();
+  hideHome();
   appendMsg(Role.user, content);
   chatContentInput.value = "";
   if (!curConversationId) {
@@ -309,10 +313,14 @@ function clearActiveConversation() {
   activeNode && activeNode.classList.remove("active");
   curConversationId = null;
   chatHistory.innerHTML = "";
+  clearVoiceCache();
   showHome();
 }
 
 function appendMsg(role, content) {
+  if (role != Role.user) {
+    playVoice(content);
+  }
   chatHistory.appendChild(buildMessageNode(role, content));
   chatHistory.scrollTop = chatHistory.scrollHeight;
   highlightCode();

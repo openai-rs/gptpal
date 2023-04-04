@@ -8,6 +8,8 @@
   <title>GPT Pal</title>
   <link rel="stylesheet" href="style.css" />
   <script src="main.js"></script>
+  <script src="speech.js"></script>
+  <script src="speaker.js"></script>
 </head>
 
 <body>
@@ -38,7 +40,8 @@
         </div>
         <div id="prompts-list">
         </div>
-        <div id="sync-prompts"><span style="display:inline-block" onclick="syncPrompts()"><span style="display: inline-block" id="update-emoji">🌔</span> Click here to sync prompts from</span> <a
+        <div id="sync-prompts"><span style="display:inline-block" onclick="syncPrompts()"><span
+              style="display: inline-block" id="update-emoji">🌔</span> Click here to sync prompts from</span> <a
             target="_blank"
             href="https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md">awesome-chatgpt-prompts</a></div>
       </div>
@@ -52,6 +55,20 @@
         <textarea id="chat-content" onkeydown=""
           placeholder="Use slash `/` to get prompts suggestions, `Tab` to select a prompt. Press 'Shift + Enter' to create a new line."></textarea>
         <button id="chat-send" onclick="sendChatContent()">Send</button>
+        <div id="voice-output" class="raw" style="position: absolute; bottom: 10px;margin-left: 10px;">
+          <input onchange="checkPlay(this)" id="play-voice" type="checkbox"></input>
+          <label for="play-voice">🔉</label>
+        </div>
+        <div id="voice-input" class="raw" style="margin-left: 80px;">
+          <input onchange="checkListen(this)" id="listen-voice" type="checkbox"></input>
+          <label for="listen-voice">🎤</label>
+          <select id="voice-lan" onchange="changeLanguage(this)" style="margin-left: 10px;outline:none;">
+            <option>Default</option>
+            <option value="en-US">English</option>
+            <option value="zh-CN">中文</option>
+          </select>
+          <div id="over-voice" style="margin-left: 20px;color:gray;display: none;">Say "Over" to send.</div>
+        </div>
       </div>
     </div>
   </div>
