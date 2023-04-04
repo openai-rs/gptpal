@@ -53,17 +53,7 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 
 </div>
 
-## Installation
-
-
-
-2. Install the downloaded file.
-
-3. Launch the application.
-
 ## Usage
-
-### Basic
 
 1. Download the latest [release](https://github.com/openai-rs/gptpal/releases) and install.
 
@@ -78,7 +68,7 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 
 4. Say "Hi" to GPT.
 
-### Prompts
+## Prompts
 
 1. Click 'sync' button in the bottom right corner of the homepage to synchronize prompts from the [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md).
 
@@ -88,7 +78,7 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 
     <img width="745px" height="540px" src="src/assets/pin-prompt.png" />
 
-### Voice control [test]
+## Voice control [test]
 
 1. You can check the speaker 🔉 to read response.
 
@@ -96,7 +86,7 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 
     <img width="745px" height="540px" src="src/assets/voice.png" />
 
-### Config model
+## Config model
 
 You can click `Model settings` button to change max_tokens, temperature, presence_penalty and frequency_penalty.
 

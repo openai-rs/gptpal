@@ -55,8 +55,6 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
 ## 使用
 
-### 基础使用
-
 1. [Releases](https://github.com/openai-rs/gptpal/releases) 页面下载最新安装包并安装
 
 2. 启动应用
@@ -73,7 +71,7 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
 4. 与 GPT 聊天
 
-### Prompts
+## Prompts
 
 1. 点击主页右下角 'sync' 按钮可从 [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md) 同步 prompts.
 
@@ -83,7 +81,7 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
     <img width="745px" height="540px" src="src/assets/pin-prompt.png" />
 
-### 语音聊天 [test]
+## 语音聊天 [test]
 
 1. 勾选播放器 🔉 可朗读GPT的回复
 
@@ -91,7 +89,7 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
     <img width="745px" height="540px" src="src/assets/voice.png" />
 
-### 配置模型
+## 配置模型
 
 点击左下角 `Model settings` 按钮可配置 max_tokens, temperature, presence_penalty 和 frequency_penalty.
 
