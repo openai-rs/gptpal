@@ -32,7 +32,7 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 | ------ | ------ | ------ |
 | Chatting simultaneously with GPTs | ✔️ | The capability to chat with multiple GPTs simultaneously, with a notification when there is new message. |
 | Conversations are recorded locally | ✔️ | All conversations are saved locally.|
-| Sync prompts from the awesome repo | ✔️ | Ability to synchronize prompts from repo: awesome-chatgpt-prompts. |
+| Sync prompts from the awesome repo | ✔️ | Ability to synchronize prompts from repo: [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts#prompts). |
 | Prompts suggestions hints | ✔️ | Suggestions and hints for prompts to make chat more engaging. |
 | Rendering markdown | ✔️ | Ability to render markdown in the chat window. |
 | Highlighting &amp; Copying code | ✔️ | Ability to highlight and copy code from the chat window. |

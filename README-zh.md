@@ -32,7 +32,7 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 | ------ | ------ | ------ |
 | 同时与多个GPT聊天 | ✔️ | 不需要等待, 与多个GPT同时聊天, 新消息提醒 |
 | 本地对话记录 | ✔️ | 对话记录保存在本地, 可清理 |
-| 同步更新 Prompts | ✔️ | 可从 awesome-chatgpt-prompts 仓库同步最新Prompts |
+| 同步更新 Prompts | ✔️ | 可从 [awesome-chatgpt-prompts](https://github.com/f/awesome-chatgpt-prompts#prompts) 仓库同步最新Prompts |
 | Prompts 输入提示 | ✔️ | 输入 '/' 提示相关Prompts, TAB选择 |
 | Markdown 渲染 | ✔️ | 渲染Markdown语法 |
 | 代码块渲染 | ✔️ | 高亮代码块, 支持复制代码 |
