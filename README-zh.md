@@ -12,8 +12,9 @@ Chat with GPTs just like chatting with your many friends.
 
 </div>
 
-![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/openai-rs/gptpal?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/openai-rs/gptpal/release.yml?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/openai-rs/gptpal?style=flat-square)
+<img src="https://img.shields.io/badge/platform-MacOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square"/>
 
 
 ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prompt联想。本地存储对话记录。可配置代理。
@@ -41,10 +42,10 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 | Model 配置 | ✔️ | 选择模型, 配置模型请求参数 |
 | 代理配置 | ✔️ | 配置 API 使用的代理 |
 | 钉选 prompts | ✔️ | 自定义钉选 prompts |
+| 跨平台 | ✔️ | 支持 Windows, Macos, Linux |
 | 语言选择 | 🚧 | 选择回复语言 |
 | Token 优化 | 🚧 | 优化token使用 |
 | Token 用量 | 🚧 | 检查token用量 |
-| 多平台 | 🚧 | 支持 Windows, Macos, Linux |
 | 主题 | 🚧 | 更改主题样式 |
 | 修改标题 | 🚧 | 修改对话主题 |
 | 声音输入 | 🚧 | 语音聊天 |
@@ -54,7 +55,7 @@ ChatGPT API桌面版, 可同时与多个GPT聊天。可同步Prompts, 支持Prom
 
 ## 安装
 
-1. Releases 页面下载
+1. [Releases](https://github.com/openai-rs/gptpal/releases) 页面下载最新安装包
 
 2. 安装
 

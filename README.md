@@ -13,8 +13,9 @@ Chat with GPTs just like chatting with your many friends.
 
 </div>
 
-![Cirrus CI - Base Branch Build Status](https://img.shields.io/cirrus/github/openai-rs/gptpal?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/openai-rs/gptpal/release.yml?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/openai-rs/gptpal?style=flat-square)
+<img src="https://img.shields.io/badge/platform-MacOS%20%7C%20Windows%20%7C%20Linux-blue?style=flat-square"/>
 
 A ChatGPT desktop application that allows you to chat with GPTs simultaneously. It records conversations locally and provides various features such as prompt suggestions, markdown rendering, highlighting and copying code, restoring window state, API, model, and proxy configuration, and pinning of prompts.
 
@@ -41,10 +42,10 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 | Model configuration | ✔️ | Ability to configure the GPT model. |
 | Proxy configuration | ✔️ | Ability to configure proxy settings for the API. |
 | Pinning of prompts | ✔️ | Ability to pin frequently used prompts for quick access. |
+| Cross platform | ✔️ | Ability to use GPT Pal on multiple platforms. |
 | Language selection | 🚧 | Ability to select the language for the GPT models. |
 | Token optimization | 🚧 | Optimization of token usage. |
 | Token usage | 🚧 | Ability to check token usage with the API. |
-| Cross platform | 🚧 | Ability to use the chat app on multiple platforms. |
 | Theme | 🚧 | Ability to change the theme of the chat window. |
 | Title modification | 🚧 | Ability to modify the title of the chat window. |
 | Voice input | 🚧 | Ability to input text through voice recognition. |
@@ -54,7 +55,7 @@ A ChatGPT desktop application that allows you to chat with GPTs simultaneously. 
 
 ## Installation
 
-1. Download the latest release.
+1. Download the latest [release](https://github.com/openai-rs/gptpal/releases).
 
 2. Install the downloaded file.
 
