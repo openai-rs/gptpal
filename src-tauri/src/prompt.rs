@@ -9,18 +9,19 @@ const PROMPTS_FILE: &str = "prompts.json";
 #[tauri::command]
 pub async fn sync_prompts_en(proxy: Option<&str>) -> Result<(), String> {
 	println!("Sync prompts...");
+	let awesome_repo = "https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md";
 	let html;
 	if let Some(proxy) = proxy {
 		let proxy = ureq::Proxy::new(proxy).unwrap();
 		let agent = ureq::AgentBuilder::new().proxy(proxy).build();
 		html = agent
-			.get("https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md")
+			.get(awesome_repo)
 			.call()
 			.map_err(|e| e.to_string())?
 			.into_string()
 			.map_err(|e| e.to_string())?;
 	} else {
-		html = ureq::get("https://github.com/f/awesome-chatgpt-prompts/blob/main/README.md")
+		html = ureq::get(awesome_repo)
 			.call()
 			.map_err(|e| e.to_string())?
 			.into_string()
@@ -42,18 +43,32 @@ pub async fn sync_prompts_en(proxy: Option<&str>) -> Result<(), String> {
 	}
 	for blockquote in dom.find(Name("blockquote")) {
 		let content = blockquote.text().trim().to_string();
-		let check_txt = blockquote.prev().unwrap().prev().unwrap().text();
-		if check_txt.contains("Contributed") || check_txt.contains("Example") {
+		let check_txt = blockquote.prev().unwrap().prev().unwrap().text().to_lowercase();
+		let check_txt2 = blockquote
+			.prev()
+			.unwrap()
+			.prev()
+			.unwrap()
+			.prev()
+			.unwrap()
+			.prev()
+			.unwrap()
+			.text()
+			.to_lowercase();
+		if check_txt.contains("contributed")
+			|| check_txt.contains("act")
+			|| check_txt2.contains("contributed")
+			|| check_txt2.contains("act")
+		{
 			contents.push(content);
 		}
 	}
-
 	for i in 0..titles.len() {
 		let content_idx = i + contents.len() - titles.len();
 		map.insert(titles[i].clone(), (contents[content_idx].clone(), 0));
 	}
 	write_file(PROMPTS_FILE, serde_json::to_string(&map).unwrap());
-	println!("Sync prompts done.");
+	println!("Sync prompts done. {}, {}", titles.len(), contents.len());
 	Ok(())
 }
 

@@ -352,7 +352,9 @@ function closeCover() {
 
 function syncPrompts() {
   let proxy = Config.proxy ? Config.proxy : null;
+  startUpdateRotation();
   invoke("sync_prompts_en", { proxy: proxy }).then(() => {
+    stopUpdateRotation();
     loadPrompts();
   });
 }
@@ -460,4 +462,18 @@ function fixedPin(event) {
 
 function hideSuggestions() {
   suggestions.style.display = "none";
+}
+
+function startUpdateRotation() {
+  let element = document.getElementById("update-emoji");
+  element.style.animationName = 'rotate';
+  element.style.animationDuration = '1.5s';
+  element.style.animationTimingFunction = 'linear';
+  element.style.animationIterationCount = 'infinite';
+  element.style.transformOrigin = "center";
+}
+
+function stopUpdateRotation() {
+  let element = document.getElementById("update-emoji");
+  element.style.animationName = '';
 }

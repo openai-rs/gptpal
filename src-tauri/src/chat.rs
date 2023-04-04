@@ -104,8 +104,8 @@ fn construct_chat_request(messages: Vec<Message>) -> ChatBody {
 	ChatBody {
 		model: "gpt-3.5-turbo".to_string(),
 		max_tokens: None,
-		temperature: Some(0.7),
-		top_p: Some(0.9),
+		temperature: None,
+		top_p: None,
 		n: Some(1),
 		stream: None,
 		stop: None,
