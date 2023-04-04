@@ -386,6 +386,7 @@ function updateHomePrompts() {
     return promptsMap[b][1] - promptsMap[a][1];
   });
   let promptsList = document.getElementById("prompts-list");
+  promptsList.innerHTML = "";
   keys.forEach((k) => {
     let prompt = promptsMap[k][0];
     let text = prompt;
