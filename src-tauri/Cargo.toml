@@ -25,7 +25,7 @@ openai_api_rust = "0.1.5"
 pulldown-cmark = "0.9"
 # prompts
 ureq = "2.6"
-select = "0.6"
+csv = "1.2"
 
 [features]
 # by default Tauri runs in production mode
