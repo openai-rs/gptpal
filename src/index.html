@@ -67,7 +67,7 @@
             <option value="en-US">English</option>
             <option value="zh-CN">中文</option>
           </select>
-          <div id="over-voice" style="margin-left: 20px;color:gray;display: none;">Say "Over" to send.</div>
+          <div id="over-voice" style="margin-left: 20px;color:gray;display: none;">Say 'Clear' to clear, 'Over' to send.</div>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@
     </div>
   </div>
   <div id="model-dialog" class="dialog col">
-    <div class="raw" style="justify-content: space-around; width: 80%;">
+    <div class="raw" style="justify-content: space-around; width: 100%;">
       <div class="col space-around" style="align-items: start; height: 250px;">
         <div>Max tokens:</div>
         <div
@@ -106,10 +106,13 @@
         <div style="height: 34px;"></div>
       </div>
       <div class="col space-around" style="align-items: end; height: 250px;">
-        <input id="max-tokens-input" type="number" min="1" placeholder="No limit" />
-        <input id="temperature-input" step="0.1" type="number" min="0" max="2" placeholder="0 ~ 2, defaults to 1" />
-        <input id="presence-input" step="0.1" type="number" min="-2" max="2" placeholder="-2.0 ~ 2.0, defaults to -1" />
-        <input id="frequency-input" step="0.1" type="number" min="-2" max="2" placeholder="-2.0 ~ 2.0, defaults to 0" />
+        <input style="align-self: self-start" id="max-tokens-input" type="number" min="1" placeholder="No limit" />
+        <div class="raw two-end"><input onchange="changeSlider(this)" id="temperature-input" step="0.1" type="range" value="1" min="0" max="2"
+            placeholder="0 ~ 2, defaults to 1" /> <div class="rangeNum">1.0</div></div>
+        <div class="raw two-end"><input onchange="changeSlider(this)" id="presence-input" step="0.1" type="range" min="-2" max="2" value="-1"
+            placeholder="-2.0 ~ 2.0, defaults to -1" /> <div class="rangeNum">-1.0</div></div>
+        <div class="raw two-end"><input onchange="changeSlider(this)" id="frequency-input" step="0.1" type="range" min="-2" max="2" value="0"
+            placeholder="-2.0 ~ 2.0, defaults to 0" /> <div class="rangeNum">0.0</div></div>
         <div class="div-btn" onclick="saveModel()" style="position: relative; top:10px;">Save</div>
       </div>
     </div>

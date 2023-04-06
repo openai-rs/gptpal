@@ -573,3 +573,8 @@ body {
   position: absolute;
   bottom: 10px;
 }
+
+.rangeNum {
+  width: 30px;
+  margin-left: 10px;
+}

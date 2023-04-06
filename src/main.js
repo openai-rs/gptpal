@@ -127,8 +127,11 @@ function loadConfig() {
     // model config
     document.getElementById("max-tokens-input").value = Config.model.max_tokens;
     document.getElementById("temperature-input").value = Config.model.temperature;
+    document.getElementById("temperature-input").nextElementSibling.innerText = Config.model.temperature || 1;
     document.getElementById("presence-input").value = Config.model.presence_penalty;
+    document.getElementById("presence-input").nextElementSibling.innerText = Config.model.presence_penalty || -1;
     document.getElementById("frequency-input").value = Config.model.frequency_penalty;
+    document.getElementById("frequency-input").nextElementSibling.innerText = Config.model.frequency_penalty || 0;
     updateOpenAi();
   });
 
@@ -485,4 +488,10 @@ function startUpdateRotation() {
 function stopUpdateRotation() {
   let element = document.getElementById("update-emoji");
   element.style.animationName = '';
+}
+
+function changeSlider(ele) {
+  let span = ele.nextElementSibling;
+  span.innerText = ele.value;
+  console.log(span);
 }

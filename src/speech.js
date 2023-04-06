@@ -26,9 +26,11 @@ function startListen() {
                 if (result[i].isFinal && (text.toLowerCase().includes('over') || text.includes('发送'))) {
                     document.getElementById("chat-content").value = finalText + curText;
                     sendChatContent();
-                    cacheText = "";
-                    finalText = "";
-                    recognition.abort();
+                    clearVoiceCache();
+                    return;
+                } else if (result[i].isFinal && (text.toLowerCase().includes('clear') || text.includes('清除'))) {
+                    document.getElementById("chat-content").value = "";
+                    clearVoiceCache();
                     return;
                 } else {
                     curText += text
@@ -57,9 +59,9 @@ function changeLanguage(ele) {
     }
     voiceOver = document.getElementById("over-voice");
     if (ele.value.includes("zh")) {
-        voiceOver.innerText = "说 '发送' 即可发送";
+        voiceOver.innerText = "说 '清除' 清除内容, '发送' 即可发送";
     } else {
-        voiceOver.innerText = "Say 'Over' to send.";
+        voiceOver.innerText = "Say 'Clear' to clear, 'Over' to send.";
     }
 }
 
